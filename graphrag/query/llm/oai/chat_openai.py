@@ -15,6 +15,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
+from graphrag.llm.others.factories import is_valid_llm_type, use_chat_llm
 from graphrag.query.llm.base import BaseLLM, BaseLLMCallback
 from graphrag.query.llm.oai.base import OpenAILLMImpl
 from graphrag.query.llm.oai.typing import (
@@ -132,6 +133,16 @@ class ChatOpenAI(BaseLLM, OpenAILLMImpl):
         model = self.model
         if not model:
             raise ValueError(_MODEL_REQUIRED_MSG)
+
+        llm_type, *models = model.split('.')
+        if is_valid_llm_type(llm_type):
+            llm_type, *models = model.split('.')
+            chat_llm = use_chat_llm(llm_type, model='.'.join(models))
+            if streaming:
+                return ''.join([chunk.content for chunk in
+                                chat_llm.stream(messages, **kwargs)])
+            return chat_llm.invoke(messages, **kwargs).content or ''
+
         response = self.sync_client.chat.completions.create(  # type: ignore
             model=model,
             messages=messages,  # type: ignore
@@ -173,6 +184,15 @@ class ChatOpenAI(BaseLLM, OpenAILLMImpl):
         model = self.model
         if not model:
             raise ValueError(_MODEL_REQUIRED_MSG)
+
+        llm_type, *models = model.split('.')
+        if is_valid_llm_type(llm_type):
+            chat_llm = use_chat_llm(llm_type, model='.'.join(models))
+            if streaming:
+                return ''.join([chunk.content async for chunk in
+                                chat_llm.astream(messages, **kwargs)])
+            return (await chat_llm.ainvoke(messages, **kwargs)).content or ''
+
         response = await self.async_client.chat.completions.create(  # type: ignore
             model=model,
             messages=messages,  # type: ignore

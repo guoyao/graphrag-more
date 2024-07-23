@@ -6,6 +6,8 @@
 import logging
 from json import JSONDecodeError
 
+from graphrag.llm.others.factories import is_valid_llm_type, use_chat_llm
+
 from typing_extensions import Unpack
 
 from graphrag.llm.base import BaseLLM
@@ -52,6 +54,13 @@ class OpenAIChatLLM(BaseLLM[CompletionInput, CompletionOutput]):
             *history,
             {"role": "user", "content": input},
         ]
+
+        model = self.configuration.lookup('model', '')
+        llm_type, *models = model.split('.')
+        if is_valid_llm_type(llm_type):
+            chat_llm = use_chat_llm(llm_type, model='.'.join(models))
+            return (await chat_llm.ainvoke(messages)).content
+
         completion = await self.client.chat.completions.create(
             messages=messages, **args
         )

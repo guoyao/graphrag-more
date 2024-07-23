@@ -18,6 +18,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
+from graphrag.llm.others.factories import is_valid_llm_type, use_embeddings
 from graphrag.query.llm.base import BaseTextEmbedding
 from graphrag.query.llm.oai.base import OpenAILLMImpl
 from graphrag.query.llm.oai.typing import (
@@ -121,6 +122,10 @@ class OpenAIEmbedding(BaseTextEmbedding, OpenAILLMImpl):
     def _embed_with_retry(
         self, text: str | tuple, **kwargs: Any
     ) -> tuple[list[float], int]:
+        embeddings = None
+        llm_type, *models = self.model.split('.')
+        if is_valid_llm_type(llm_type):
+            embeddings = use_embeddings(llm_type, model='.'.join(models))
         try:
             retryer = Retrying(
                 stop=stop_after_attempt(self.max_retries),
@@ -130,6 +135,10 @@ class OpenAIEmbedding(BaseTextEmbedding, OpenAILLMImpl):
             )
             for attempt in retryer:
                 with attempt:
+                    if embeddings is not None:
+                        if isinstance(text, tuple):
+                            text = self.token_encoder.decode(text)
+                        return embeddings.embed_query(text), len(text)
                     embedding = (
                         self.sync_client.embeddings.create(  # type: ignore
                             input=text,
@@ -154,6 +163,10 @@ class OpenAIEmbedding(BaseTextEmbedding, OpenAILLMImpl):
     async def _aembed_with_retry(
         self, text: str | tuple, **kwargs: Any
     ) -> tuple[list[float], int]:
+        embeddings = None
+        llm_type, *models = self.model.split('.')
+        if is_valid_llm_type(llm_type):
+            embeddings = use_embeddings(llm_type, model='.'.join(models))
         try:
             retryer = AsyncRetrying(
                 stop=stop_after_attempt(self.max_retries),
@@ -163,6 +176,9 @@ class OpenAIEmbedding(BaseTextEmbedding, OpenAILLMImpl):
             )
             async for attempt in retryer:
                 with attempt:
+                    if embeddings is not None:
+                        return await embeddings.aembed_query(text), len(text)
+
                     embedding = (
                         await self.async_client.embeddings.create(  # type: ignore
                             input=text,
