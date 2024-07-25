@@ -11,7 +11,7 @@ openai==1.35.7
 nltk==3.8.1
 tiktoken==0.7.0
 numba==0.60.0
-numpy==1.25.2
+numpy==1.26.4
 graspologic==3.4.1
 networkx==3
 fastparquet==2024.2.0
@@ -35,7 +35,7 @@ nbconvert==7.16.3
 poethepoet==0.26.0
 pyright==1.1.368
 pytest==8.2.0
-pytest-asyncio==0.23.4
+pytest-asyncio==0.23.8
 pytest-timeout==2.3.1
 ruff==0.5.0
 semversioner==2.0.3
@@ -45,3 +45,4 @@ langchain-community==0.2.6
 langchain-core==0.2.13
 qianfan==0.4.0.1
 dashscope==1.20.1
+ollama==0.3.0

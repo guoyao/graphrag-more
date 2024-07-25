@@ -3,6 +3,7 @@
 
 """The EmbeddingsLLM class."""
 
+import ollama
 from typing_extensions import Unpack
 
 from graphrag.llm.base import BaseLLM
@@ -34,6 +35,8 @@ class OpenAIEmbeddingsLLM(BaseLLM[EmbeddingInput, EmbeddingOutput]):
         if is_valid_llm_type(llm_type):
             embeddings = use_embeddings(llm_type, model='.'.join(models))
             return await embeddings.aembed_documents(input)
+        if llm_type == 'ollama':
+            return [ollama.embeddings(model='.'.join(models), prompt=v)['embedding'] for v in input]
 
         args = {
             "model": self.configuration.model,
