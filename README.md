@@ -87,7 +87,7 @@ cp ./example_settings/ollama/settings.yaml ./ragtest
 python -m graphrag.index --root ./ragtest
 ```
 构建过程可能会触发 rate limit （限速）导致构建失败，重复执行几次，或者尝试调小 settings.yaml 中
-的 concurrent_requests （并发请求数 ）配置，然后重试
+的 requests_per_minute 和 concurrent_requests 配置，然后重试
 
 ### 9. 执行查询
 ```shell
