@@ -40,6 +40,7 @@ pytest-timeout==2.3.1
 ruff==0.5.0
 semversioner==2.0.3
 update-toml==0.2.1
+json_repair==0.26.0
 
 langchain-community==0.2.6
 langchain-core==0.2.13
