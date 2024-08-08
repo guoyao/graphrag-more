@@ -1,25 +1,14 @@
 [tool.poetry]
-name = "graphrag"
+name = "graphrag-more"
 # Maintainers: do not change the version here manually, use ./scripts/release.sh
 version = "0.2.0"
-description = ""
+description = "基于微软GraphRAG，支持使用百度千帆、阿里通义、Ollama等模型"
 authors = [
-    "Alonso Guevara Fernández <alonsog@microsoft.com>",
-    "Andrés Morales Esquivel <andresmor@microsoft.com>",
-    "Chris Trevino <chtrevin@microsoft.com>",
-    "David Tittsworth <datittsw@microsoft.com>",
-    "Dayenne de Souza <ddesouza@microsoft.com>",
-    "Gaudy Blanco Meneses <gaudyb@microsoft.com>",
-    "Ha Trinh <trinhha@microsoft.com>",
-    "Jonathan Larson <jolarso@microsoft.com>",
-    "Kate Lytvynets <kalytv@microsoft.com>",
-    "Mónica Carvajal",
-    "Nathan Evans <naevans@microsoft.com>",
-    "Rodrigo Racanicci <rracanicci@microsoft.com>",
-    "Sarah Smith <smithsarah@microsoft.com>",
+    "Guoyao Wu <guoyao.me@gmail.com>",
 ]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/guoyao/graphrag-more"
 packages = [{ include = "graphrag" }]
 
 [tool.poetry-dynamic-versioning]
@@ -85,6 +74,13 @@ typing-extensions = "^4.12.2"
 #Azure
 azure-storage-blob = "^12.19.0"
 azure-identity = "^1.17.1"
+
+# more
+langchain-community = "0.2.6"
+langchain-core = "^0.2.13"
+qianfan = "^0.4.0.1"
+dashscope = "^1.20.1"
+ollama = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.6.0"
