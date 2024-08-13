@@ -2,6 +2,15 @@
 
 基于 [微软GraphRAG](https://github.com/microsoft/graphrag) ，支持使用百度千帆、阿里通义、Ollama本地模型。
 
+<div align="left">
+  <a href="https://pypi.org/project/graphrag-more/">
+    <img alt="PyPI - Version" src="https://img.shields.io/pypi/v/graphrag-more">
+  </a>
+  <a href="https://pypi.org/project/graphrag-more/">
+    <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/graphrag-more">
+  </a>
+</div>
+
 👉 [官方文档](https://microsoft.github.io/graphrag/posts/get_started/)
 
 ## 使用步骤如下：
