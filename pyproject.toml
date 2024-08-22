@@ -79,6 +79,7 @@ json-repair = "^0.26.0"
 # more
 langchain-community = "0.2.6"
 langchain-core = "^0.2.29"
+langchain-ollama = "^0.1.1"
 qianfan = "^0.4.5"
 dashscope = "^1.20.3"
 ollama = "^0.3.1"

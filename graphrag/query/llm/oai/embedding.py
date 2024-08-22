@@ -125,7 +125,8 @@ class OpenAIEmbedding(BaseTextEmbedding, OpenAILLMImpl):
         embeddings = None
         llm_type, *models = self.model.split('.')
         if is_valid_llm_type(llm_type):
-            embeddings = use_embeddings(llm_type, model='.'.join(models))
+            args = {**kwargs, 'model': '.'.join(models)}
+            embeddings = use_embeddings(llm_type, **args)
         try:
             retryer = Retrying(
                 stop=stop_after_attempt(self.max_retries),
@@ -166,7 +167,8 @@ class OpenAIEmbedding(BaseTextEmbedding, OpenAILLMImpl):
         embeddings = None
         llm_type, *models = self.model.split('.')
         if is_valid_llm_type(llm_type):
-            embeddings = use_embeddings(llm_type, model='.'.join(models))
+            args = {**kwargs, 'model': '.'.join(models)}
+            embeddings = use_embeddings(llm_type, **args)
         try:
             retryer = AsyncRetrying(
                 stop=stop_after_attempt(self.max_retries),

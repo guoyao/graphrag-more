@@ -10,7 +10,7 @@ from langchain_core.embeddings.embeddings import Embeddings
 from langchain_core.language_models import BaseLanguageModel, BaseChatModel
 from langchain_core.messages.base import BaseMessage
 
-from graphrag.llm.others import qianfan, tongyi
+from graphrag.llm.others import qianfan, tongyi, ollama
 
 _llm_creators: Dict[str, Callable[..., BaseLanguageModel[Union[str, BaseMessage]]]] = {}
 _chat_llm_creators: Dict[str, Callable[..., BaseChatModel]] = {}
@@ -40,7 +40,8 @@ def once(func):
 @unique
 class LLMType(Enum):
     QIANFAN = 'qianfan'  # Baidu Qianfan
-    TONGYI = 'tongyi'    # Alibaba Tongyi
+    TONGYI = 'tongyi'  # Alibaba Tongyi
+    OLLAMA = 'ollama'  # Ollama
 
 
 def is_valid_llm_type(llm_type: str) -> bool:
@@ -152,7 +153,8 @@ def use_llm_all(llm_type: Optional[Union[str, LLMType]] = None) -> \
 def _register_all():
     creators = [
         (LLMType.QIANFAN, qianfan.creators),
-        (LLMType.TONGYI, tongyi.creators)
+        (LLMType.TONGYI, tongyi.creators),
+        (LLMType.OLLAMA, ollama.creators)
     ]
     for v in creators:
         register_creators(v[0], *v[1])

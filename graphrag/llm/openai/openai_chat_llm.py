@@ -5,18 +5,16 @@
 
 import logging
 
-from graphrag.llm.others.factories import is_valid_llm_type, use_chat_llm
-
 from typing_extensions import Unpack
 
 from graphrag.llm.base import BaseLLM
+from graphrag.llm.others.factories import is_valid_llm_type, use_chat_llm
 from graphrag.llm.types import (
     CompletionInput,
     CompletionOutput,
     LLMInput,
     LLMOutput,
 )
-
 from ._prompts import JSON_CHECK_PROMPT
 from .openai_configuration import OpenAIConfiguration
 from .types import OpenAIClientTypes
@@ -56,8 +54,9 @@ class OpenAIChatLLM(BaseLLM[CompletionInput, CompletionOutput]):
         model = self.configuration.lookup('model', '')
         llm_type, *models = model.split('.')
         if is_valid_llm_type(llm_type):
-            chat_llm = use_chat_llm(llm_type, model='.'.join(models))
-            return (await chat_llm.ainvoke(messages)).content
+            args = {**args, 'model': '.'.join(models)}
+            chat_llm = use_chat_llm(llm_type, model=args['model'])
+            return (await chat_llm.ainvoke(messages, **args)).content
 
         completion = await self.client.chat.completions.create(
             messages=messages, **args

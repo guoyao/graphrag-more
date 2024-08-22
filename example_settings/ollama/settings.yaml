@@ -4,11 +4,11 @@ skip_workflows: []
 llm:
   api_key: ${GRAPHRAG_API_KEY}
   type: openai_chat # or azure_openai_chat
-  model: mistral:latest
+  model: ollama.mistral:latest
   model_supports_json: true # recommended if this is available for your model.
   # max_tokens: 4000
   # request_timeout: 180.0
-  api_base: http://localhost:11434/v1
+  # api_base: http://localhost:11434/v1
   # api_version: 2024-02-15-preview
   # organization: <organization_id>
   # deployment_name: <azure_model_deployment_name>
@@ -31,11 +31,12 @@ async_mode: threaded # or asyncio
 embeddings:
   ## parallelization: override the global parallelization settings for embeddings
   async_mode: threaded # or asyncio
+  # target: required # or all
   llm:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
     model: ollama.quentinz/bge-large-zh-v1.5:latest
-    api_base: http://localhost:11434/api
+    # api_base: http://localhost:11434/api
     # api_version: 2024-02-15-preview
     # organization: <organization_id>
     # deployment_name: <azure_model_deployment_name>

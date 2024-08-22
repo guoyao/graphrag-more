@@ -17,7 +17,6 @@ from langchain_core.messages import BaseMessage
 
 # https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu
 INSTRUCT_MODEL = 'ERNIE-Speed-8K'
-# INSTRUCT_MODEL = 'ERNIE-4.0-Turbo-8K'
 CHAT_MODEL = INSTRUCT_MODEL
 EMBEDDINGS_MODEL = 'bge-large-zh'
 

@@ -11,7 +11,8 @@
   </a>
 </div>
 
-👉 [官方文档](https://microsoft.github.io/graphrag/posts/get_started/)
+> 可以先熟悉一下微软官方的demo教程：👉 [微软官方文档](https://microsoft.github.io/graphrag/posts/get_started/)
+
 
 ## 使用步骤如下：
 
@@ -66,9 +67,9 @@ cp ./example_settings/tongyi/settings.yaml ./ragtest
 cp ./example_settings/ollama/settings.yaml ./ragtest
 ```
 每个settings.yaml里面都设置了默认的 llm 和 embeddings 模型，根据你自己要使用的模型修改 settings.yaml 文件的 model 配置
-* 千帆默认使用 qianfan.ERNIE-4.0-Turbo-8K 和 qianfan.bge-large-zh ，**注意：必须带上 qianfan 前缀 ！！！**
-* 通义默认使用 tongyi.qwen-plus 和 tongyi.text-embedding-v2 ，**注意：必须带上 tongyi 前缀 ！！！**
-* Ollama默认使用 mistral:latest 和 ollama.quentinz/bge-large-zh-v1.5:latest，**注意：其llm模型不用带前缀，embeddings模型必须带 ollama 前缀  ！！！**
+* 千帆默认使用 qianfan.ERNIE-4.0-Turbo-8K 和 qianfan.bge-large-zh ，**注意：必须带上 qianfan. 前缀 ！！！**
+* 通义默认使用 tongyi.qwen-plus 和 tongyi.text-embedding-v2 ，**注意：必须带上 tongyi. 前缀 ！！！**
+* Ollama默认使用 ollama.mistral:latest 和 ollama.quentinz/bge-large-zh-v1.5:latest ，**注意：<=0.3.0版本时，其llm模型不用带前缀，>=0.3.1版本时，其llm模型必须带上 ollama. 前缀，embeddings模型必须带 ollama. 前缀  ！！！**
 
 ### 5. 构建前的准备
 根据选用的模型，配置对应的环境变量，若使用Ollama需要安装并下载对应模型

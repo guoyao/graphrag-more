@@ -31,6 +31,7 @@ async_mode: asyncio # or threaded
 embeddings:
   ## parallelization: override the global parallelization settings for embeddings
   async_mode: asyncio # or threaded
+  # target: required # or all
   llm:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
