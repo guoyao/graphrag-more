@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "graphrag-more"
 # Maintainers: do not change the version here manually, use ./scripts/release.sh
-version = "0.3.1"
+version = "0.3.2"
 description = "基于微软GraphRAG，支持使用百度千帆、阿里通义、Ollama等模型"
 authors = [
     "Guoyao Wu <guoyao.me@gmail.com>",
@@ -76,6 +76,8 @@ azure-storage-blob = "^12.22.0"
 azure-identity = "^1.17.1"
 json-repair = "^0.26.0"
 
+future = "^1.0.0"
+
 # more
 langchain-community = "0.2.6"
 langchain-core = "^0.2.29"
@@ -94,7 +96,7 @@ pyright = "^1.1.371"
 pytest = "^8.3.2"
 pytest-asyncio = "^0.23.4"
 pytest-timeout = "^2.3.1"
-ruff = "^0.5.2"
+ruff = "^0.6.2"
 semversioner = "^2.0.3"
 
 update-toml = "^0.2.1"
