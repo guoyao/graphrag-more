@@ -79,7 +79,7 @@ json-repair = "^0.26.0"
 future = "^1.0.0"
 
 # more
-langchain-community = "0.2.6"
+langchain-community = "^0.2.6,!=0.2.7,!=0.2.8,!=0.2.9,!=0.2.10,!=0.2.11"
 langchain-core = "^0.2.29"
 langchain-ollama = "^0.1.1"
 qianfan = "^0.4.5"
