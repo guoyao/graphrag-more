@@ -4,7 +4,7 @@ skip_workflows: []
 llm:
   api_key: ${GRAPHRAG_API_KEY}
   type: openai_chat # or azure_openai_chat
-  model: qianfan.ERNIE-4.0-Turbo-8K
+  model: qianfan.ERNIE-3.5-128K
   model_supports_json: false # recommended if this is available for your model, original default is true
   # max_tokens: 4000
   # request_timeout: 180.0
@@ -13,11 +13,11 @@ llm:
   # organization: <organization_id>
   # deployment_name: <azure_model_deployment_name>
   # tokens_per_minute: 150_000 # set a leaky bucket throttle
-  requests_per_minute: 120 # set a leaky bucket throttle，original default is 10_000
+  # requests_per_minute: 120 # set a leaky bucket throttle，original default is 10_000
   # max_retries: 10
   # max_retry_wait: 10.0
   # sleep_on_rate_limit_recommendation: true # whether to sleep when azure suggests wait-times
-  concurrent_requests: 2 # the number of parallel inflight requests that may be made，original default is 25
+  # concurrent_requests: 2 # the number of parallel inflight requests that may be made，original default is 25
   temperature: 0.1 # temperature for sampling, original default is 0
   # top_p: 1 # top-p sampling
   # n: 1 # Number of completions to generate
@@ -142,13 +142,13 @@ local_search:
   llm_temperature: 0.1 # temperature for sampling, original default is 0
   # llm_top_p: 1 # top-p sampling
   # llm_n: 1 # Number of completions to generate
-  max_tokens: 5000 # original default is 12000
+  # max_tokens: 5000 # original default is 12000
 
 global_search:
   llm_temperature: 0.1 # temperature for sampling, original default is 0
   # llm_top_p: 1 # top-p sampling
   # llm_n: 1 # Number of completions to generate
-  max_tokens: 5000 # original default is 12000
+  # max_tokens: 5000 # original default is 12000
   # data_max_tokens: 12000
   # map_max_tokens: 1000
   # reduce_max_tokens: 2000
