@@ -19,7 +19,7 @@ llm:
   # sleep_on_rate_limit_recommendation: true # whether to sleep when azure suggests wait-times
   # concurrent_requests: 25 # the number of parallel inflight requests that may be made
   # temperature: 0 # temperature for sampling
-  top_p: 0.9 # top-p sampling, original default is 1
+  # top_p: 1 # top-p sampling
   # n: 1 # Number of completions to generate
 
 parallelization:
@@ -142,13 +142,13 @@ local_search:
   # top_k_mapped_entities: 10
   # top_k_relationships: 10
   # llm_temperature: 0 # temperature for sampling
-  llm_top_p: 0.9 # top-p sampling, original default is 1
+  # llm_top_p: 1 # top-p sampling
   # llm_n: 1 # Number of completions to generate
   # max_tokens: 12000
 
 global_search:
   # llm_temperature: 0 # temperature for sampling
-  llm_top_p: 0.9 # top-p sampling, original default is 1
+  # llm_top_p: 1 # top-p sampling
   # llm_n: 1 # Number of completions to generate
   # max_tokens: 12000
   # data_max_tokens: 12000
