@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "graphrag-more"
 # Maintainers: do not change the version here manually, use ./scripts/release.sh
-version = "0.3.3"
+version = "0.3.5"
 description = "基于微软GraphRAG，支持使用百度千帆、阿里通义、Ollama等模型"
 authors = [
     "Guoyao Wu <guoyao.me@gmail.com>",
@@ -85,7 +85,7 @@ future = "^1.0.0"
 langchain-community = "^0.2.6,!=0.2.7,!=0.2.8,!=0.2.9,!=0.2.10,!=0.2.11"
 langchain-core = "^0.2.29"
 langchain-ollama = "^0.1.3"
-qianfan = "^0.4.5"
+qianfan = "^0.4.5,!=0.4.8"
 dashscope = "^1.20.3"
 ollama = "^0.3.1"
 
