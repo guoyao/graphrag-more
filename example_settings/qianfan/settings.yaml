@@ -18,7 +18,7 @@ llm:
   # max_retry_wait: 10.0
   # sleep_on_rate_limit_recommendation: true # whether to sleep when azure suggests wait-times
   # concurrent_requests: 2 # the number of parallel inflight requests that may be made，original default is 25
-  temperature: 0.1 # temperature for sampling, original default is 0
+  temperature: 1e-10 # temperature for sampling, original default is 0
   # top_p: 1 # top-p sampling
   # n: 1 # Number of completions to generate
 
@@ -141,13 +141,13 @@ local_search:
   # conversation_history_max_turns: 5
   # top_k_mapped_entities: 10
   # top_k_relationships: 10
-  llm_temperature: 0.1 # temperature for sampling, original default is 0
+  llm_temperature: 1e-10 # temperature for sampling, original default is 0
   # llm_top_p: 1 # top-p sampling
   # llm_n: 1 # Number of completions to generate
   # max_tokens: 5000 # original default is 12000
 
 global_search:
-  llm_temperature: 0.1 # temperature for sampling, original default is 0
+  llm_temperature: 1e-10 # temperature for sampling, original default is 0
   # llm_top_p: 1 # top-p sampling
   # llm_n: 1 # Number of completions to generate
   # max_tokens: 5000 # original default is 12000
