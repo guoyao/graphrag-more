@@ -72,13 +72,13 @@ cache:
 
 storage:
   type: file # or blob
-  base_dir: "output/${timestamp}/artifacts"
+  base_dir: "output" # output/${timestamp}/artifacts
   # connection_string: <azure_blob_storage_connection_string>
   # container_name: <azure_blob_storage_container_name>
 
 reporting:
   type: file # or console, blob
-  base_dir: "output/${timestamp}/reports"
+  base_dir: "output" # output/${timestamp}/reports
   # connection_string: <azure_blob_storage_connection_string>
   # container_name: <azure_blob_storage_container_name>
 
