@@ -11,7 +11,7 @@
   </a>
 </div>
 
-> 可以先熟悉一下微软官方的demo教程：👉 [微软官方文档](https://microsoft.github.io/graphrag/posts/get_started/)
+> 可以先熟悉一下微软官方的demo教程：👉 [微软官方文档](https://microsoft.github.io/graphrag/get_started/)
 
 
 ## 使用步骤如下：
