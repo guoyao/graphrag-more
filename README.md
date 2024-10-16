@@ -106,3 +106,7 @@ python -m graphrag.query \
 ```
 查询过程可能会出现json解析报错问题，原因是某些模型没按要求输出json格式，可以重复执行几次，或者修改 settings.yaml 的 llm.model 改用其他模型
 
+除了使用cli命令之外，你也可以使用API方式来查询，以便集成到你自己的项目中，API使用方式请参考：
+[examples/api_usage](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage)
+* 基于已有配置文件查询：[search_by_config_file.py](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage/search_by_config_file.py)
+* 基于代码的自定义查询：[custom_search.py](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage/custom_search.py)
