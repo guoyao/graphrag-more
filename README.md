@@ -74,7 +74,7 @@ cp ./example_settings/ollama/settings.yaml ./ragtest
 ### 5. 构建前的准备
 根据选用的模型，配置对应的环境变量，若使用Ollama需要安装并下载对应模型
 * 千帆：需配置环境变量 QIANFAN_AK、QIANFAN_SK（**注意是应用的AK/SK，不是安全认证的Access Key/Secret Key**），如何获取请参考官方文档：https://cloud.baidu.com/doc/WENXINWORKSHOP/s/3lmokh7n6#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%BA%94%E7%94%A8%E7%9A%84ak%E5%92%8Csk
-* 通义：需配置环境变量 TONGYI_API_KEY，如何获取请参考官方文档：https://help.aliyun.com/zh/model-studio/developer-reference/get-api-key
+* 通义：需配置环境变量 TONGYI_API_KEY（从0.3.6.1版本开始，也支持使用 DASHSCOPE_API_KEY，同时都配置的情况下 TONGYI_API_KEY 优先级高于 DASHSCOPE_API_KEY），如何获取请参考官方文档：https://help.aliyun.com/zh/model-studio/developer-reference/get-api-key
 * Ollama：
   * 安装：https://ollama.com/download ，安装后启动
   * 下载模型

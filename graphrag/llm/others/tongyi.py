@@ -21,7 +21,7 @@ CHAT_MODEL = INSTRUCT_MODEL
 EMBEDDINGS_MODEL = 'text-embedding-v2'
 
 common_options = {
-    'dashscope_api_key': os.getenv('TONGYI_API_KEY')
+    'dashscope_api_key': os.getenv('TONGYI_API_KEY') or os.getenv('DASHSCOPE_API_KEY')
 }
 
 _llm, _chat_llm, _embeddings = None, None, None
