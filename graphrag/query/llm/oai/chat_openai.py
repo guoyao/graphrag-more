@@ -244,27 +244,38 @@ class ChatOpenAI(BaseLLM, OpenAILLMImpl):
         model = self.model
         if not model:
             raise ValueError(_MODEL_REQUIRED_MSG)
-        response = self.sync_client.chat.completions.create(  # type: ignore
-            model=model,
-            messages=messages,  # type: ignore
-            stream=True,
-            **kwargs,
-        )
-        for chunk in response:
-            if not chunk or not chunk.choices:
-                continue
 
-            delta = (
-                chunk.choices[0].delta.content
-                if chunk.choices[0].delta and chunk.choices[0].delta.content
-                else ""
+        llm_type, *models = model.split('.')
+        if is_valid_llm_type(llm_type):
+            chat_llm = use_chat_llm(llm_type, model='.'.join(models))
+            for chunk in chat_llm.stream(messages, **kwargs):
+                delta = chunk.content or ''
+                yield delta
+                if callbacks:
+                    for callback in callbacks:
+                        callback.on_llm_new_token(delta)
+        else:
+            response = self.sync_client.chat.completions.create(  # type: ignore
+                model=model,
+                messages=messages,  # type: ignore
+                stream=True,
+                **kwargs,
             )
+            for chunk in response:
+                if not chunk or not chunk.choices:
+                    continue
 
-            yield delta
+                delta = (
+                    chunk.choices[0].delta.content
+                    if chunk.choices[0].delta and chunk.choices[0].delta.content
+                    else ""
+                )
 
-            if callbacks:
-                for callback in callbacks:
-                    callback.on_llm_new_token(delta)
+                yield delta
+
+                if callbacks:
+                    for callback in callbacks:
+                        callback.on_llm_new_token(delta)
 
     async def _agenerate(
         self,
@@ -326,24 +337,35 @@ class ChatOpenAI(BaseLLM, OpenAILLMImpl):
         model = self.model
         if not model:
             raise ValueError(_MODEL_REQUIRED_MSG)
-        response = await self.async_client.chat.completions.create(  # type: ignore
-            model=model,
-            messages=messages,  # type: ignore
-            stream=True,
-            **kwargs,
-        )
-        async for chunk in response:
-            if not chunk or not chunk.choices:
-                continue
 
-            delta = (
-                chunk.choices[0].delta.content
-                if chunk.choices[0].delta and chunk.choices[0].delta.content
-                else ""
-            )  # type: ignore
+        llm_type, *models = model.split('.')
+        if is_valid_llm_type(llm_type):
+            chat_llm = use_chat_llm(llm_type, model='.'.join(models))
+            async for chunk in chat_llm.astream(messages, **kwargs):
+                delta = chunk.content or ''
+                yield delta
+                if callbacks:
+                    for callback in callbacks:
+                        callback.on_llm_new_token(delta)
+        else:
+            response = await self.async_client.chat.completions.create(  # type: ignore
+                model=model,
+                messages=messages,  # type: ignore
+                stream=True,
+                **kwargs,
+            )
+            async for chunk in response:
+                if not chunk or not chunk.choices:
+                    continue
 
-            yield delta
+                delta = (
+                    chunk.choices[0].delta.content
+                    if chunk.choices[0].delta and chunk.choices[0].delta.content
+                    else ""
+                )  # type: ignore
 
-            if callbacks:
-                for callback in callbacks:
-                    callback.on_llm_new_token(delta)
+                yield delta
+
+                if callbacks:
+                    for callback in callbacks:
+                        callback.on_llm_new_token(delta)
