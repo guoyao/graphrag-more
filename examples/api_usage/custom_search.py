@@ -52,6 +52,12 @@ embedding_model = 'tongyi.text-embedding-v2'
 llm_temperature = 0.0
 json_mode = False
 
+# Ollama
+# llm_model = 'ollama.mistral:latest'
+# embedding_model = 'ollama.quentinz/bge-large-zh-v1.5:latest'
+# llm_temperature = 0.0
+# json_mode = True
+
 # Azure OpenAI
 # api_key = os.environ.get('AZURE_OPENAI_API_KEY', '')
 # api_base = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
