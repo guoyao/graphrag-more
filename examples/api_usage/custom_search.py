@@ -3,6 +3,7 @@
 
 import asyncio
 from collections.abc import AsyncGenerator
+from pathlib import Path
 
 import pandas as pd
 import tiktoken
@@ -19,7 +20,10 @@ from graphrag.query.input.loaders.dfs import store_entity_semantic_embeddings
 from graphrag.query.llm.oai.chat_openai import ChatOpenAI
 from graphrag.query.llm.oai.embedding import OpenAIEmbedding
 from graphrag.query.llm.oai.typing import OpenaiApiType
+from graphrag.query.question_gen.local_gen import LocalQuestionGen
 from graphrag.query.structured_search.base import SearchResult
+from graphrag.query.structured_search.drift_search.drift_context import DRIFTSearchContextBuilder
+from graphrag.query.structured_search.drift_search.search import DRIFTSearch
 from graphrag.query.structured_search.global_search.community_context import GlobalCommunityContext
 from graphrag.query.structured_search.global_search.search import GlobalSearch, GlobalSearchResult
 from graphrag.query.structured_search.local_search.mixed_context import LocalSearchMixedContext
@@ -165,7 +169,7 @@ reduce_llm_params = {
 }
 
 
-def build_local_search_engine() -> LocalSearch:
+def build_local_context_builder() -> LocalSearchMixedContext:
     entity_df = pd.read_parquet(f'{DATA_DIR}/{ENTITY_NODES_TABLE}.parquet')
     entity_embedding_df = pd.read_parquet(f'{DATA_DIR}/{ENTITY_EMBEDDING_TABLE}.parquet')
 
@@ -174,7 +178,7 @@ def build_local_search_engine() -> LocalSearch:
     # load description embeddings to an in-memory lancedb vectorstore
     # to connect to a remote db, specify url and port values.
     description_embedding_store = LanceDBVectorStore(
-        collection_name='entity_description_embeddings',
+        collection_name='default-entity-description',
     )
     description_embedding_store.connect(db_uri=LANCEDB_URI)
     entity_description_embeddings = store_entity_semantic_embeddings(
@@ -224,9 +228,13 @@ def build_local_search_engine() -> LocalSearch:
         token_encoder=token_encoder
     )
 
+    return context_builder
+
+
+def build_local_search_engine() -> LocalSearch:
     return LocalSearch(
         llm=llm,
-        context_builder=context_builder,
+        context_builder=build_local_context_builder(),
         token_encoder=token_encoder,
         llm_params=llm_params,
         context_builder_params=local_context_params,
@@ -234,6 +242,16 @@ def build_local_search_engine() -> LocalSearch:
         # free form text describing the response type and format, can be anything,
         # e.g. prioritized list, single paragraph, multiple paragraphs, multiple-page report
         response_type='multiple paragraphs'
+    )
+
+
+def build_local_question_gen() -> LocalQuestionGen:
+    return LocalQuestionGen(
+        llm=llm,
+        context_builder=build_local_context_builder(),
+        token_encoder=token_encoder,
+        llm_params=llm_params,
+        context_builder_params=local_context_params
     )
 
 
@@ -286,6 +304,93 @@ def build_global_search_engine() -> GlobalSearch:
     )
 
 
+def embed_community_reports(
+        input_dir: str,
+        embedder: OpenAIEmbedding,
+        community_report_table: str = COMMUNITY_REPORT_TABLE
+):
+    '''Embeds the full content of the community reports and saves the DataFrame with embeddings to the output path.'''
+    input_path = Path(input_dir) / f'{community_report_table}.parquet'
+    output_path = Path(input_dir) / f'{community_report_table}_with_embeddings.parquet'
+
+    if not Path(output_path).exists():
+        print('Embedding file not found. Computing community report embeddings...')
+
+        report_df = pd.read_parquet(input_path)
+
+        if 'full_content' not in report_df.columns:
+            error_msg = f"'full_content' column not found in {input_path}"
+            raise ValueError(error_msg)
+
+        report_df['full_content_embeddings'] = report_df.loc[:, 'full_content'].apply(
+            lambda x: embedder.embed(x)
+        )
+
+        # Save the DataFrame with embeddings to the output path
+        report_df.to_parquet(output_path)
+        print(f'Embeddings saved to {output_path}')
+        return report_df
+    print(f'Embeddings file already exists at {output_path}')
+    return pd.read_parquet(output_path)
+
+
+def build_drift_search_engine() -> DRIFTSearch:
+    # read nodes table to get community and degree data
+    entity_df = pd.read_parquet(f'{DATA_DIR}/{ENTITY_NODES_TABLE}.parquet')
+    entity_embedding_df = pd.read_parquet(f'{DATA_DIR}/{ENTITY_EMBEDDING_TABLE}.parquet')
+
+    entities = read_indexer_entities(entity_df, entity_embedding_df, COMMUNITY_LEVEL)
+
+    # load description embeddings to an in-memory lancedb vectorstore
+    # to connect to a remote db, specify url and port values.
+    description_embedding_store = LanceDBVectorStore(
+        collection_name='default-entity-description',
+    )
+    description_embedding_store.connect(db_uri=LANCEDB_URI)
+    entity_description_embeddings = store_entity_semantic_embeddings(
+        entities=entities, vectorstore=description_embedding_store
+    )
+
+    print(f'Entity count: {len(entity_df)}')
+    entity_df.head()
+
+    relationship_df = pd.read_parquet(f'{DATA_DIR}/{RELATIONSHIP_TABLE}.parquet')
+    relationships = read_indexer_relationships(relationship_df)
+
+    print(f'Relationship count: {len(relationship_df)}')
+    relationship_df.head()
+
+    text_unit_df = pd.read_parquet(f'{DATA_DIR}/{TEXT_UNIT_TABLE}.parquet')
+    text_units = read_indexer_text_units(text_unit_df)
+
+    print(f'Text unit records: {len(text_unit_df)}')
+    text_unit_df.head()
+
+    report_df = embed_community_reports(DATA_DIR, text_embedder)
+    reports = read_indexer_reports(
+        report_df,
+        entity_df,
+        COMMUNITY_LEVEL,
+        content_embedding_col='full_content_embeddings'
+    )
+
+    context_builder = DRIFTSearchContextBuilder(
+        chat_llm=llm,
+        text_embedder=text_embedder,
+        entities=entities,
+        relationships=relationships,
+        reports=reports,
+        entity_text_embeddings=entity_description_embeddings,
+        text_units=text_units
+    )
+
+    return DRIFTSearch(
+        llm=llm,
+        context_builder=context_builder,
+        token_encoder=token_encoder
+    )
+
+
 def local_search(query) -> SearchResult:
     search_engine = build_local_search_engine()
     return search_engine.search(query)
@@ -318,6 +423,11 @@ async def global_astream_search(query) -> AsyncGenerator:
         yield chunk
 
 
+async def drift_asearch(query) -> SearchResult:
+    search_engine = build_drift_search_engine()
+    return await search_engine.asearch(query)
+
+
 def local_search_demo():
     query = 'Who is Scrooge, and what are his main relationships?'
     result = local_search(query)
@@ -342,6 +452,18 @@ async def local_astream_search_demo():
             context_data = chunk
     print(context_data)
     print(response)
+
+
+async def question_generation_demo():
+    question_history = [
+        'Tell me about Agent Mercer',
+        'What happens in Dulce military base?'
+    ]
+    question_generator = build_local_question_gen()
+    candidate_questions = await question_generator.agenerate(
+        question_history=question_history, context_data=None, question_count=5
+    )
+    print(candidate_questions.response)
 
 
 def global_search_demo():
@@ -370,6 +492,13 @@ async def global_astream_search_demo():
     print(response)
 
 
+async def drift_asearch_demo():
+    query = 'Who is agent Mercer?'
+    result = await local_asearch(query)
+    print(result.context_data)
+    print(result.response)
+
+
 if __name__ == '__main__':
     DATA_DIR = './ragtest/output'
     LANCEDB_URI = f'{DATA_DIR}/lancedb'
@@ -379,7 +508,13 @@ if __name__ == '__main__':
     asyncio.run(local_asearch_demo())
     # asyncio.run(local_astream_search_demo())
 
+    # Question Generation
+    # asyncio.run(question_generation_demo())
+
     # global search
     # global_search_demo()
     # asyncio.run(global_asearch_demo())
     # asyncio.run(global_astream_search_demo())
+
+    # drift search
+    # asyncio.run(drift_asearch_demo())

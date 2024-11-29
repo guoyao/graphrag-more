@@ -8,10 +8,10 @@ from typing import Optional, Any
 
 import pandas as pd
 
+from graphrag.api import query as api
 from graphrag.config import GraphRagConfig
 from graphrag.config import load_config, resolve_paths
 from graphrag.index.create_pipeline_config import create_pipeline_config
-from graphrag.query import api
 from graphrag.utils.storage import _create_storage, _load_table_from_storage
 
 ENTITY_NODES_TABLE = 'create_final_nodes'
@@ -248,6 +248,60 @@ async def global_search_streaming(
         yield stream_chunk
 
 
+async def drift_search(
+        query: str,
+        root_dir: str,
+        config_filepath: Optional[str] = None,
+        community_level: Optional[int] = 2
+) -> tuple[
+    str | dict[str, Any] | list[dict[str, Any]],
+    str | list[pd.DataFrame] | dict[str, pd.DataFrame]
+]:
+    """Perform a local search and return the response and context data.
+
+    Parameters
+    ----------
+    - query (str): The user query to search for
+    - root_dir (str): The data project root
+    - config_filepath (str): The configuration yaml file to use when running the query
+    - community_level (int): The community level to search at
+    - response_type (str): The response type to return
+
+    Returns
+    -------
+    - response
+    - context data
+    """
+    root = Path(root_dir).resolve()
+    config = load_config(root, config_filepath)
+    resolve_paths(config)
+
+    dataframe_dict = await resolve_parquet_files(
+        root_dir=root_dir,
+        config=config,
+        parquet_list=local_search_parquet_list,
+        optional_list=optional_parquet_list
+    )
+    final_nodes: pd.DataFrame = dataframe_dict[ENTITY_NODES_TABLE]
+    final_entities: pd.DataFrame = dataframe_dict[ENTITY_EMBEDDING_TABLE]
+    final_community_reports: pd.DataFrame = dataframe_dict[COMMUNITY_REPORT_TABLE]
+    final_text_units: pd.DataFrame = dataframe_dict[TEXT_UNIT_TABLE]
+    final_relationships: pd.DataFrame = dataframe_dict[RELATIONSHIP_TABLE]
+
+    response, context_data = await api.drift_search(
+        config=config,
+        nodes=final_nodes,
+        entities=final_entities,
+        community_reports=final_community_reports,
+        text_units=final_text_units,
+        relationships=final_relationships,
+        community_level=community_level,
+        query=query
+    )
+
+    return response, context_data
+
+
 async def resolve_parquet_files(
         root_dir: str,
         config: GraphRagConfig,
@@ -314,6 +368,13 @@ async def global_search_streaming_demo():
     print(response)
 
 
+async def drift_search_demo():
+    query = 'Who is agent Mercer?'
+    response, context_data = await drift_search(query, DEMO_ROOT_DIR)
+    print(context_data)
+    print(response)
+
+
 if __name__ == '__main__':
     DEMO_ROOT_DIR = './ragtest'
 
@@ -324,3 +385,6 @@ if __name__ == '__main__':
     # global search
     # asyncio.run(global_search_demo())
     # asyncio.run(global_search_streaming_demo())
+
+    # drift search
+    # asyncio.run(drift_search_demo())
