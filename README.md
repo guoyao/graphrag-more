@@ -50,12 +50,13 @@ curl https://www.gutenberg.org/cache/epub/24022/pg24022.txt > ./ragtest/input/bo
 
 ### 3. 初始化demo目录
 ```shell
-python -m graphrag.index --init --root ./ragtest
+graphrag init --root ./ragtest
 ```
 
 ### 4. 移动和修改 settings.yaml 文件
-根据选用的模型（千帆、通义、Ollama）将 [example_settings](https://github.com/guoyao/graphrag-more/tree/main/example_settings)
-文件夹对应模型的 settings.yaml 文件复制到 ragtest 目录，覆盖初始化过程生成的 settings.yaml 文件。
+根据选用的模型（千帆、通义、Ollama）和使用的`graphrag-more`版本（不同版本settings.yaml可能不一样），
+将 `example_settings` 文件夹（比如：0.4.0 版本的[example_settings](https://github.com/guoyao/graphrag-more/tree/v0.4.0/example_settings)
+）对应模型的 settings.yaml 文件复制到 ragtest 目录，覆盖初始化过程生成的 settings.yaml 文件。
 ```shell
 # 千帆
 cp ./example_settings/qianfan/settings.yaml ./ragtest
@@ -66,7 +67,7 @@ cp ./example_settings/tongyi/settings.yaml ./ragtest
 # or ollama
 cp ./example_settings/ollama/settings.yaml ./ragtest
 ```
-每个settings.yaml里面都设置了默认的 llm 和 embeddings 模型，根据你自己要使用的模型修改 settings.yaml 文件的 model 配置
+每个settings.yaml里面都设置了默认的 llm 和 embeddings 模型，根据选用的模型修改 settings.yaml 文件的 model 配置
 * 千帆默认使用 qianfan.ERNIE-3.5-128K 和 qianfan.bge-large-zh ，**注意：必须带上 qianfan. 前缀 ！！！**
 * 通义默认使用 tongyi.qwen-plus 和 tongyi.text-embedding-v2 ，**注意：必须带上 tongyi. 前缀 ！！！**
 * Ollama默认使用 ollama.mistral:latest 和 ollama.quentinz/bge-large-zh-v1.5:latest ，**注意：<=0.3.0版本时，其llm模型不用带前缀，>=0.3.1版本时，其llm模型必须带上 ollama. 前缀，embeddings模型必须带 ollama. 前缀  ！！！**
@@ -85,7 +86,7 @@ cp ./example_settings/ollama/settings.yaml ./ragtest
 
 ### 6. 构建索引
 ```shell
-python -m graphrag.index --root ./ragtest
+graphrag index --root ./ragtest
 ```
 构建过程可能会触发 rate limit （限速）导致构建失败，重复执行几次，或者尝试调小 settings.yaml 中
 的 requests_per_minute 和 concurrent_requests 配置，然后重试
@@ -93,20 +94,20 @@ python -m graphrag.index --root ./ragtest
 ### 7. 执行查询
 ```shell
 # global query
-python -m graphrag.query \
+graphrag query \
 --root ./ragtest \
 --method global \
-"What are the top themes in this story?"
+--query "What are the top themes in this story?"
 
 # local query
-python -m graphrag.query \
+graphrag query \
 --root ./ragtest \
 --method local \
-"Who is Scrooge, and what are his main relationships?"
+--query "Who is Scrooge, and what are his main relationships?"
 ```
 查询过程可能会出现json解析报错问题，原因是某些模型没按要求输出json格式，可以重复执行几次，或者修改 settings.yaml 的 llm.model 改用其他模型
 
-除了使用cli命令之外，你也可以使用API方式来查询，以便集成到你自己的项目中，API使用方式请参考：
-[examples/api_usage](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage)
+除了使用cli命令之外，也可以使用API方式来查询，以便集成到自己的项目中，API使用方式请参考：
+[examples/api_usage](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage)（注意：不同`graphrag-more`版本API用法可能不一样，参考所使用版本下的文件）
 * 基于已有配置文件查询：[search_by_config_file.py](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage/search_by_config_file.py)
 * 基于代码的自定义查询：[custom_search.py](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage/custom_search.py)

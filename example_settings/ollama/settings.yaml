@@ -1,4 +1,3 @@
-
 encoding_model: cl100k_base
 skip_workflows: []
 llm:
@@ -6,6 +5,7 @@ llm:
   type: openai_chat # or azure_openai_chat
   model: ollama.mistral:latest
   model_supports_json: true # recommended if this is available for your model.
+  # audience: "https://cognitiveservices.azure.com/.default"
   # max_tokens: 4000
   # request_timeout: 180.0
   # api_base: http://localhost:11434/v1
@@ -32,12 +32,27 @@ embeddings:
   ## parallelization: override the global parallelization settings for embeddings
   async_mode: threaded # or asyncio
   # target: required # or all
+  # batch_size: 16 # the number of documents to send in a single request
+  # batch_max_tokens: 8191 # the maximum number of tokens to send in a single request
+  vector_store:
+    type: lancedb
+    db_uri: 'output/lancedb'
+    container_name: default # A prefix for the vector store to create embedding containers. Default: 'default'.
+    overwrite: true
+    # vector_store: # configuration for AI Search
+    # type: azure_ai_search
+    # url: <ai_search_endpoint>
+    # api_key: <api_key> # if not set, will attempt to use managed identity. Expects the `Search Index Data Contributor` RBAC role in this case.
+    # audience: <optional> # if using managed identity, the audience to use for the token
+    # overwrite: true # or false. Only applicable at index creation time
+    # container_name: default # A prefix for the AzureAISearch to create indexes. Default: 'default'.
   llm:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
     model: ollama.quentinz/bge-large-zh-v1.5:latest
     # api_base: http://localhost:11434/api
     # api_version: 2024-02-15-preview
+    # audience: "https://cognitiveservices.azure.com/.default"
     # organization: <organization_id>
     # deployment_name: <azure_model_deployment_name>
     # tokens_per_minute: 150_000 # set a leaky bucket throttle
@@ -46,11 +61,6 @@ embeddings:
     # max_retry_wait: 10.0
     # sleep_on_rate_limit_recommendation: true # whether to sleep when azure suggests wait-times
     # concurrent_requests: 25 # the number of parallel inflight requests that may be made
-    # batch_size: 16 # the number of documents to send in a single request
-    # batch_max_tokens: 8191 # the maximum number of tokens to send in a single request
-    # target: required # or optional
-  
-
 
 chunks:
   size: 300
@@ -76,9 +86,15 @@ storage:
   # connection_string: <azure_blob_storage_connection_string>
   # container_name: <azure_blob_storage_container_name>
 
+update_index_storage: # Storage to save an updated index (for incremental indexing). Enabling this performs an incremental index run
+  # type: file # or blob
+  # base_dir: "update_output"
+  # connection_string: <azure_blob_storage_connection_string>
+  # container_name: <azure_blob_storage_container_name>
+
 reporting:
   type: file # or console, blob
-  base_dir: "output" # output/${timestamp}/reports
+  base_dir: "logs"
   # connection_string: <azure_blob_storage_connection_string>
   # container_name: <azure_blob_storage_container_name>
 
