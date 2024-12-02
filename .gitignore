@@ -42,8 +42,6 @@ ragtest/
 .pipelines
 .pipeline
 
-/test_resources
-/.idea
 
 # mkdocs
 site/
@@ -52,3 +50,9 @@ site/
 docsite/
 .yarn/
 .pnp*
+
+# PyCharm
+.idea/
+
+# Jupyter notebook
+.ipynb_checkpoints/
