@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../../query/notebooks/overview/">
-      
-      
-        <link rel="next" href="../local_search/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +16,7 @@
     
     
       
-        <title>Global Search - GraphRAG</title>
+        <title>Global search with dynamic community selection - GraphRAG</title>
       
     
     
@@ -110,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Global Search
+              Global search with dynamic community selection
             
           </span>
         </div>
@@ -269,12 +265,10 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../../query/overview/" class="md-tabs__link">
           
   
@@ -733,28 +727,23 @@
       
   
   
-    
   
   
-  
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -765,7 +754,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Query
@@ -881,8 +870,6 @@
                 
   
   
-    
-  
   
   
     
@@ -892,11 +879,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
         
           
           <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
@@ -910,7 +897,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_6">
             <span class="md-nav__icon md-icon"></span>
             Notebooks
@@ -942,28 +929,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Global Search
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../global_search/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -972,81 +941,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#global-search-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Global Search example
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Global Search example">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#llm-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      LLM setup
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#load-community-reports-as-context-for-global-search" class="md-nav__link">
-    <span class="md-ellipsis">
-      Load community reports as context for global search
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Load community reports as context for global search">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#build-global-context-based-on-community-reports" class="md-nav__link">
-    <span class="md-ellipsis">
-      Build global context based on community reports
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#perform-global-search" class="md-nav__link">
-    <span class="md-ellipsis">
-      Perform global search
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1487,18 +1381,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#build-global-context-based-on-community-reports" class="md-nav__link">
+  <a href="#build-global-context-with-dynamic-community-selection" class="md-nav__link">
     <span class="md-ellipsis">
-      Build global context based on community reports
+      Build global context with dynamic community selection
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#perform-global-search" class="md-nav__link">
+  <a href="#perform-global-search-with-dynamic-community-selection" class="md-nav__link">
     <span class="md-ellipsis">
-      Perform global search
+      Perform global search with dynamic community selection
     </span>
   </a>
   
@@ -1532,7 +1426,7 @@
   
 
 
-  <h1>Global Search</h1>
+  <h1>Global search with dynamic community selection</h1>
 
 <script>
 (function (global, factory) {
@@ -2207,9 +2101,9 @@ File <span class="ansi-green-fg">~/.cache/pypoetry/virtualenvs/graphrag-more-_hB
 <span class="n">ENTITY_TABLE</span> <span class="o">=</span> <span class="s2">"create_final_nodes"</span>
 <span class="n">ENTITY_EMBEDDING_TABLE</span> <span class="o">=</span> <span class="s2">"create_final_entities"</span>
 
-<span class="c1"># community level in the Leiden community hierarchy from which we will load the community reports</span>
-<span class="c1"># higher value means we use reports from more fine-grained communities (at the cost of higher computation cost)</span>
-<span class="n">COMMUNITY_LEVEL</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="c1"># we don't fix a specific community level but instead use an agent to dynamicially</span>
+<span class="c1"># search through all the community reports to check if they are relevant.</span>
+<span class="n">COMMUNITY_LEVEL</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-4"># parquet files generated from indexing pipeline
 INPUT_DIR = "./inputs/operation dulce"
@@ -2218,9 +2112,9 @@ COMMUNITY_REPORT_TABLE = "create_final_community_reports"
 ENTITY_TABLE = "create_final_nodes"
 ENTITY_EMBEDDING_TABLE = "create_final_entities"
 
-# community level in the Leiden community hierarchy from which we will load the community reports
-# higher value means we use reports from more fine-grained communities (at the cost of higher computation cost)
-COMMUNITY_LEVEL = 2</div>
+# we don't fix a specific community level but instead use an agent to dynamicially
+# search through all the community reports to check if they are relevant.
+COMMUNITY_LEVEL = None</div>
 </div>
 </div>
 </div>
@@ -2251,8 +2145,15 @@ COMMUNITY_LEVEL = 2</div>
 <span class="n">entity_embedding_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">INPUT_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">ENTITY_EMBEDDING_TABLE</span><span class="si">}</span><span class="s2">.parquet"</span><span class="p">)</span>
 
 <span class="n">communities</span> <span class="o">=</span> <span class="n">read_indexer_communities</span><span class="p">(</span><span class="n">community_df</span><span class="p">,</span> <span class="n">entity_df</span><span class="p">,</span> <span class="n">report_df</span><span class="p">)</span>
-<span class="n">reports</span> <span class="o">=</span> <span class="n">read_indexer_reports</span><span class="p">(</span><span class="n">report_df</span><span class="p">,</span> <span class="n">entity_df</span><span class="p">,</span> <span class="n">COMMUNITY_LEVEL</span><span class="p">)</span>
-<span class="n">entities</span> <span class="o">=</span> <span class="n">read_indexer_entities</span><span class="p">(</span><span class="n">entity_df</span><span class="p">,</span> <span class="n">entity_embedding_df</span><span class="p">,</span> <span class="n">COMMUNITY_LEVEL</span><span class="p">)</span>
+<span class="n">reports</span> <span class="o">=</span> <span class="n">read_indexer_reports</span><span class="p">(</span>
+    <span class="n">report_df</span><span class="p">,</span>
+    <span class="n">entity_df</span><span class="p">,</span>
+    <span class="n">community_level</span><span class="o">=</span><span class="n">COMMUNITY_LEVEL</span><span class="p">,</span>
+    <span class="n">dynamic_community_selection</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">entities</span> <span class="o">=</span> <span class="n">read_indexer_entities</span><span class="p">(</span>
+    <span class="n">entity_df</span><span class="p">,</span> <span class="n">entity_embedding_df</span><span class="p">,</span> <span class="n">community_level</span><span class="o">=</span><span class="n">COMMUNITY_LEVEL</span>
+<span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total report count: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">report_df</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span>
@@ -2267,8 +2168,15 @@ report_df = pd.read_parquet(f"{INPUT_DIR}/{COMMUNITY_REPORT_TABLE}.parquet")
 entity_embedding_df = pd.read_parquet(f"{INPUT_DIR}/{ENTITY_EMBEDDING_TABLE}.parquet")
 
 communities = read_indexer_communities(community_df, entity_df, report_df)
-reports = read_indexer_reports(report_df, entity_df, COMMUNITY_LEVEL)
-entities = read_indexer_entities(entity_df, entity_embedding_df, COMMUNITY_LEVEL)
+reports = read_indexer_reports(
+    report_df,
+    entity_df,
+    community_level=COMMUNITY_LEVEL,
+    dynamic_community_selection=True,
+)
+entities = read_indexer_entities(
+    entity_df, entity_embedding_df, community_level=COMMUNITY_LEVEL
+)
 
 print(f"Total report count: {len(report_df)}")
 print(
@@ -2288,7 +2196,31 @@ report_df.head()</div>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Total report count: 20
-Report count after filtering by community level 2: 17
+Report count after filtering by community level None: 20
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>/home/runner/work/graphrag-more/graphrag-more/graphrag/query/indexer_adapters.py:158: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  nodes_df["community"] = nodes_df["community"].fillna(-1)
+/home/runner/work/graphrag-more/graphrag-more/graphrag/query/indexer_adapters.py:159: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  nodes_df["community"] = nodes_df["community"].astype(int)
+/home/runner/work/graphrag-more/graphrag-more/graphrag/query/indexer_adapters.py:160: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  nodes_df["degree"] = nodes_df["degree"].astype(int)
 </pre>
 </div>
 </div>
@@ -2406,7 +2338,9 @@ Report count after filtering by community level 2: 17
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="build-global-context-based-on-community-reports">Build global context based on community reports<a class="anchor-link" href="#build-global-context-based-on-community-reports">¶</a></h4>
+<h4 id="build-global-context-with-dynamic-community-selection">Build global context with dynamic community selection<a class="anchor-link" href="#build-global-context-with-dynamic-community-selection">¶</a></h4><p>The goal of dynamic community selection reduce the number of community reports that need to be processed in the map-reduce operation. To that end, we take advantage of the hierachical structure of the indexed dataset. We first ask the LLM to rate how relevant each level 0 community is with respect to the user query, we then traverse down the child node(s) if the current community report is deemed relevant.</p>
+<p>You can still set a <code>COMMUNITY_LEVEL</code> to filter out lower level community reports and apply dynamic community selection on the filtered reports.</p>
+<p>Note that the dataset is quite small, with only consist of 20 communities from 2 levels (level 0 and 1). Dynamic community selection is more effective when there are large amount of content to be filtered out.</p>
 </div>
 </div>
 </div>
@@ -2429,18 +2363,44 @@ Report count after filtering by community level 2: 17
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">context_builder</span> <span class="o">=</span> <span class="n">GlobalCommunityContext</span><span class="p">(</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">mini_llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+    <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-4o-mini"</span><span class="p">,</span>
+    <span class="n">api_type</span><span class="o">=</span><span class="n">OpenaiApiType</span><span class="o">.</span><span class="n">OpenAI</span><span class="p">,</span>  <span class="c1"># OpenaiApiType.OpenAI or OpenaiApiType.AzureOpenAI</span>
+    <span class="n">max_retries</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">mini_token_encoder</span> <span class="o">=</span> <span class="n">tiktoken</span><span class="o">.</span><span class="n">encoding_for_model</span><span class="p">(</span><span class="n">mini_llm</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">context_builder</span> <span class="o">=</span> <span class="n">GlobalCommunityContext</span><span class="p">(</span>
     <span class="n">community_reports</span><span class="o">=</span><span class="n">reports</span><span class="p">,</span>
     <span class="n">communities</span><span class="o">=</span><span class="n">communities</span><span class="p">,</span>
     <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>  <span class="c1"># default to None if you don't want to use community weights for ranking</span>
     <span class="n">token_encoder</span><span class="o">=</span><span class="n">token_encoder</span><span class="p">,</span>
+    <span class="n">dynamic_community_selection</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">dynamic_community_selection_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"llm"</span><span class="p">:</span> <span class="n">mini_llm</span><span class="p">,</span>
+        <span class="s2">"token_encoder"</span><span class="p">:</span> <span class="n">mini_token_encoder</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">context_builder = GlobalCommunityContext(
+<div class="clipboard-copy-txt" id="cell-6">mini_llm = ChatOpenAI(
+    api_key=api_key,
+    model="gpt-4o-mini",
+    api_type=OpenaiApiType.OpenAI,  # OpenaiApiType.OpenAI or OpenaiApiType.AzureOpenAI
+    max_retries=20,
+)
+mini_token_encoder = tiktoken.encoding_for_model(mini_llm.model)
+
+context_builder = GlobalCommunityContext(
     community_reports=reports,
     communities=communities,
     entities=entities,  # default to None if you don't want to use community weights for ranking
     token_encoder=token_encoder,
+    dynamic_community_selection=True,
+    dynamic_community_selection_kwargs={
+        "llm": mini_llm,
+        "token_encoder": mini_token_encoder,
+    },
 )</div>
 </div>
 </div>
@@ -2456,13 +2416,25 @@ Report count after filtering by community level 2: 17
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[6], line 5</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> context_builder <span style="color: rgb(98,98,98)">=</span> GlobalCommunityContext(
-<span class="ansi-green-intense-fg ansi-bold">      2</span>     community_reports<span style="color: rgb(98,98,98)">=</span>reports,
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     communities<span style="color: rgb(98,98,98)">=</span>communities,
-<span class="ansi-green-intense-fg ansi-bold">      4</span>     entities<span style="color: rgb(98,98,98)">=</span>entities,  <span style="color: rgb(95,135,135)"># default to None if you don't want to use community weights for ranking</span>
-<span class="ansi-green-fg">----&gt; 5</span>     token_encoder<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">token_encoder</span>,
+Cell <span class="ansi-green-fg">In[6], line 13</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> mini_llm <span style="color: rgb(98,98,98)">=</span> ChatOpenAI(
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     api_key<span style="color: rgb(98,98,98)">=</span>api_key,
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     model<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">gpt-4o-mini</span><span style="color: rgb(175,0,0)">"</span>,
+<span class="ansi-green-intense-fg ansi-bold">      4</span>     api_type<span style="color: rgb(98,98,98)">=</span>OpenaiApiType<span style="color: rgb(98,98,98)">.</span>OpenAI,  <span style="color: rgb(95,135,135)"># OpenaiApiType.OpenAI or OpenaiApiType.AzureOpenAI</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     max_retries<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">20</span>,
 <span class="ansi-green-intense-fg ansi-bold">      6</span> )
+<span class="ansi-green-intense-fg ansi-bold">      7</span> mini_token_encoder <span style="color: rgb(98,98,98)">=</span> tiktoken<span style="color: rgb(98,98,98)">.</span>encoding_for_model(mini_llm<span style="color: rgb(98,98,98)">.</span>model)
+<span class="ansi-green-intense-fg ansi-bold">      9</span> context_builder <span style="color: rgb(98,98,98)">=</span> GlobalCommunityContext(
+<span class="ansi-green-intense-fg ansi-bold">     10</span>     community_reports<span style="color: rgb(98,98,98)">=</span>reports,
+<span class="ansi-green-intense-fg ansi-bold">     11</span>     communities<span style="color: rgb(98,98,98)">=</span>communities,
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     entities<span style="color: rgb(98,98,98)">=</span>entities,  <span style="color: rgb(95,135,135)"># default to None if you don't want to use community weights for ranking</span>
+<span class="ansi-green-fg">---&gt; 13</span>     token_encoder<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">token_encoder</span>,
+<span class="ansi-green-intense-fg ansi-bold">     14</span>     dynamic_community_selection<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>,
+<span class="ansi-green-intense-fg ansi-bold">     15</span>     dynamic_community_selection_kwargs<span style="color: rgb(98,98,98)">=</span>{
+<span class="ansi-green-intense-fg ansi-bold">     16</span>         <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">llm</span><span style="color: rgb(175,0,0)">"</span>: mini_llm,
+<span class="ansi-green-intense-fg ansi-bold">     17</span>         <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">token_encoder</span><span style="color: rgb(175,0,0)">"</span>: mini_token_encoder,
+<span class="ansi-green-intense-fg ansi-bold">     18</span>     },
+<span class="ansi-green-intense-fg ansi-bold">     19</span> )
 
 <span class="ansi-red-fg">NameError</span>: name 'token_encoder' is not defined</pre>
 </div>
@@ -2477,7 +2449,7 @@ Cell <span class="ansi-green-fg">In[6], line 5</span>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="perform-global-search">Perform global search<a class="anchor-link" href="#perform-global-search">¶</a></h4>
+<h4 id="perform-global-search-with-dynamic-community-selection">Perform global search with dynamic community selection<a class="anchor-link" href="#perform-global-search-with-dynamic-community-selection">¶</a></h4>
 </div>
 </div>
 </div>
@@ -2756,14 +2728,42 @@ Cell <span class="ansi-green-fg">In[10], line 2</span>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># inspect number of LLM calls and tokens</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># inspect number of LLM calls and tokens in dynamic community selection</span>
+<span class="n">llm_calls</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">llm_calls_categories</span><span class="p">[</span><span class="s2">"build_context"</span><span class="p">]</span>
+<span class="n">prompt_tokens</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">prompt_tokens_categories</span><span class="p">[</span><span class="s2">"build_context"</span><span class="p">]</span>
+<span class="n">output_tokens</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">output_tokens_categories</span><span class="p">[</span><span class="s2">"build_context"</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"LLM calls: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">llm_calls</span><span class="si">}</span><span class="s2">. Prompt tokens: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">prompt_tokens</span><span class="si">}</span><span class="s2">. Output tokens: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">output_tokens</span><span class="si">}</span><span class="s2">."</span>
+    <span class="sa">f</span><span class="s2">"Build context (</span><span class="si">{</span><span class="n">mini_llm</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">LLM calls: </span><span class="si">{</span><span class="n">llm_calls</span><span class="si">}</span><span class="s2">. Prompt tokens: </span><span class="si">{</span><span class="n">prompt_tokens</span><span class="si">}</span><span class="s2">. Output tokens: </span><span class="si">{</span><span class="n">output_tokens</span><span class="si">}</span><span class="s2">."</span>
+<span class="p">)</span>
+<span class="c1"># inspect number of LLM calls and tokens in map-reduce</span>
+<span class="n">llm_calls</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">llm_calls_categories</span><span class="p">[</span><span class="s2">"map"</span><span class="p">]</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">llm_calls_categories</span><span class="p">[</span><span class="s2">"reduce"</span><span class="p">]</span>
+<span class="n">prompt_tokens</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">prompt_tokens_categories</span><span class="p">[</span><span class="s2">"map"</span><span class="p">]</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">prompt_tokens_categories</span><span class="p">[</span><span class="s2">"reduce"</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">output_tokens</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">output_tokens_categories</span><span class="p">[</span><span class="s2">"map"</span><span class="p">]</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">output_tokens_categories</span><span class="p">[</span><span class="s2">"reduce"</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Map-reduce (</span><span class="si">{</span><span class="n">llm</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">LLM calls: </span><span class="si">{</span><span class="n">llm_calls</span><span class="si">}</span><span class="s2">. Prompt tokens: </span><span class="si">{</span><span class="n">prompt_tokens</span><span class="si">}</span><span class="s2">. Output tokens: </span><span class="si">{</span><span class="n">output_tokens</span><span class="si">}</span><span class="s2">."</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-11"># inspect number of LLM calls and tokens
+<div class="clipboard-copy-txt" id="cell-11"># inspect number of LLM calls and tokens in dynamic community selection
+llm_calls = result.llm_calls_categories["build_context"]
+prompt_tokens = result.prompt_tokens_categories["build_context"]
+output_tokens = result.output_tokens_categories["build_context"]
 print(
-    f"LLM calls: {result.llm_calls}. Prompt tokens: {result.prompt_tokens}. Output tokens: {result.output_tokens}."
+    f"Build context ({mini_llm.model})\nLLM calls: {llm_calls}. Prompt tokens: {prompt_tokens}. Output tokens: {output_tokens}."
+)
+# inspect number of LLM calls and tokens in map-reduce
+llm_calls = result.llm_calls_categories["map"] + result.llm_calls_categories["reduce"]
+prompt_tokens = (
+    result.prompt_tokens_categories["map"] + result.prompt_tokens_categories["reduce"]
+)
+output_tokens = (
+    result.output_tokens_categories["map"] + result.output_tokens_categories["reduce"]
+)
+print(
+    f"Map-reduce ({llm.model})\nLLM calls: {llm_calls}. Prompt tokens: {prompt_tokens}. Output tokens: {output_tokens}."
 )</div>
 </div>
 </div>
@@ -2779,11 +2779,11 @@ print(
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[11], line 3</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span style="color: rgb(95,135,135)"># inspect number of LLM calls and tokens</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span style="color: rgb(0,135,0)">print</span>(
-<span class="ansi-green-fg">----&gt; 3</span>     <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">LLM calls: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span><span class="ansi-yellow-bg">result</span><span style="color: rgb(98,98,98)">.</span>llm_calls<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">. Prompt tokens: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>result<span style="color: rgb(98,98,98)">.</span>prompt_tokens<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">. Output tokens: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>result<span style="color: rgb(98,98,98)">.</span>output_tokens<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">.</span><span style="color: rgb(175,0,0)">"</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> )
+Cell <span class="ansi-green-fg">In[11], line 2</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span style="color: rgb(95,135,135)"># inspect number of LLM calls and tokens in dynamic community selection</span>
+<span class="ansi-green-fg">----&gt; 2</span> llm_calls <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">result</span><span style="color: rgb(98,98,98)">.</span>llm_calls_categories[<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">build_context</span><span style="color: rgb(175,0,0)">"</span>]
+<span class="ansi-green-intense-fg ansi-bold">      3</span> prompt_tokens <span style="color: rgb(98,98,98)">=</span> result<span style="color: rgb(98,98,98)">.</span>prompt_tokens_categories[<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">build_context</span><span style="color: rgb(175,0,0)">"</span>]
+<span class="ansi-green-intense-fg ansi-bold">      4</span> output_tokens <span style="color: rgb(98,98,98)">=</span> result<span style="color: rgb(98,98,98)">.</span>output_tokens_categories[<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">build_context</span><span style="color: rgb(175,0,0)">"</span>]
 
 <span class="ansi-red-fg">NameError</span>: name 'result' is not defined</pre>
 </div>
@@ -2823,44 +2823,6 @@ Cell <span class="ansi-green-fg">In[11], line 3</span>
       
         <footer class="md-footer">
   
-    
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
-        
-          
-          <a href="../../query/notebooks/overview/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              <div class="md-ellipsis">
-                Overview
-              </div>
-            </div>
-          </a>
-        
-        
-          
-          <a href="../local_search/" class="md-footer__link md-footer__link--next" aria-label="Next: Local Search">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Local Search
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
     
   
   <div class="md-footer-meta md-typeset">
