@@ -45,7 +45,8 @@ pip install graphrag-more
 mkdir -p ./ragtest/input
 
 # 下载微软官方demo数据
-curl https://www.gutenberg.org/cache/epub/24022/pg24022.txt > ./ragtest/input/book.txt
+# 微软官方提供的demo数据 https://www.gutenberg.org/cache/epub/24022/pg24022.txt 有点大，会消耗不少token，这里改用精简后的数据
+curl https://raw.githubusercontent.com/guoyao/graphrag-more/refs/heads/main/examples/resources/pg24022.txt > ./ragtest/input/book.txt
 ```
 
 ### 3. 初始化demo目录
