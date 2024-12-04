@@ -55,7 +55,7 @@ graphrag init --root ./ragtest
 
 ### 4. 移动和修改 settings.yaml 文件
 根据选用的模型（千帆、通义、Ollama）和使用的`graphrag-more`版本（不同版本settings.yaml可能不一样），
-将 `example_settings` 文件夹（比如：0.4.1 版本的[example_settings](https://github.com/guoyao/graphrag-more/tree/v0.4.1/example_settings)
+将 `example_settings` 文件夹（比如：0.5.0 版本的[example_settings](https://github.com/guoyao/graphrag-more/tree/v0.5.0/example_settings)
 ）对应模型的 settings.yaml 文件复制到 ragtest 目录，覆盖初始化过程生成的 settings.yaml 文件。
 ```shell
 # 千帆

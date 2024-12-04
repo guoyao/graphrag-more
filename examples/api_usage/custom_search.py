@@ -11,6 +11,7 @@ import tiktoken
 from graphrag.query.context_builder.entity_extraction import EntityVectorStoreKey
 from graphrag.query.indexer_adapters import (
     read_indexer_entities,
+    read_indexer_communities,
     read_indexer_reports,
     read_indexer_text_units,
     read_indexer_relationships,
@@ -32,6 +33,7 @@ from graphrag.vector_stores.lancedb import LanceDBVectorStore
 
 ENTITY_NODES_TABLE = 'create_final_nodes'
 ENTITY_EMBEDDING_TABLE = 'create_final_entities'
+COMMUNITIES_TABLE = 'create_final_communities'
 COMMUNITY_REPORT_TABLE = 'create_final_community_reports'
 TEXT_UNIT_TABLE = 'create_final_text_units'
 RELATIONSHIP_TABLE = 'create_final_relationships'
@@ -256,10 +258,12 @@ def build_local_question_gen() -> LocalQuestionGen:
 
 
 def build_global_search_engine() -> GlobalSearch:
+    community_df = pd.read_parquet(f'{DATA_DIR}/{COMMUNITIES_TABLE}.parquet')
     entity_df = pd.read_parquet(f'{DATA_DIR}/{ENTITY_NODES_TABLE}.parquet')
     report_df = pd.read_parquet(f'{DATA_DIR}/{COMMUNITY_REPORT_TABLE}.parquet')
     entity_embedding_df = pd.read_parquet(f'{DATA_DIR}/{ENTITY_EMBEDDING_TABLE}.parquet')
 
+    communities = read_indexer_communities(community_df, entity_df, report_df)
     reports = read_indexer_reports(report_df, entity_df, COMMUNITY_LEVEL)
     entities = read_indexer_entities(entity_df, entity_embedding_df, COMMUNITY_LEVEL)
     print(f'Total report count: {len(report_df)}')
@@ -268,6 +272,7 @@ def build_global_search_engine() -> GlobalSearch:
 
     context_builder = GlobalCommunityContext(
         community_reports=reports,
+        communities=communities,
 
         # default to None if you don't want to use community weights for ranking
         entities=entities,

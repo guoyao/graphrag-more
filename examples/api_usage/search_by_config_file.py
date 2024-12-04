@@ -9,13 +9,15 @@ from typing import Optional, Any
 import pandas as pd
 
 from graphrag.api import query as api
-from graphrag.config import GraphRagConfig
-from graphrag.config import load_config, resolve_paths
+from graphrag.config.load_config import load_config
+from graphrag.config.models.graph_rag_config import GraphRagConfig
+from graphrag.config.resolve_path import resolve_paths
 from graphrag.index.create_pipeline_config import create_pipeline_config
 from graphrag.utils.storage import _create_storage, _load_table_from_storage
 
 ENTITY_NODES_TABLE = 'create_final_nodes'
 ENTITY_EMBEDDING_TABLE = 'create_final_entities'
+COMMUNITIES_TABLE = 'create_final_communities'
 COMMUNITY_REPORT_TABLE = 'create_final_community_reports'
 TEXT_UNIT_TABLE = 'create_final_text_units'
 RELATIONSHIP_TABLE = 'create_final_relationships'
@@ -30,9 +32,10 @@ local_search_parquet_list = [
 ]
 
 global_search_parquet_list = [
-    f"{ENTITY_NODES_TABLE}.parquet",
-    f"{ENTITY_EMBEDDING_TABLE}.parquet",
-    f"{COMMUNITY_REPORT_TABLE}.parquet"
+    f'{ENTITY_NODES_TABLE}.parquet',
+    f'{ENTITY_EMBEDDING_TABLE}.parquet',
+    f'{COMMUNITIES_TABLE}.parquet',
+    f'{COMMUNITY_REPORT_TABLE}.parquet'
 ]
 
 optional_parquet_list = [f'{COVARIATE_TABLE}.parquet']
@@ -154,6 +157,7 @@ async def global_search(
         root_dir: str,
         config_filepath: Optional[str] = None,
         community_level: Optional[int] = 2,
+        dynamic_community_selection: bool = False,
         response_type: Optional[str] = 'Multiple Paragraphs'
 ) -> tuple[
     str | dict[str, Any] | list[dict[str, Any]],
@@ -186,14 +190,17 @@ async def global_search(
     )
     final_nodes: pd.DataFrame = dataframe_dict[ENTITY_NODES_TABLE]
     final_entities: pd.DataFrame = dataframe_dict[ENTITY_EMBEDDING_TABLE]
+    final_communities: pd.DataFrame = dataframe_dict[COMMUNITIES_TABLE]
     final_community_reports: pd.DataFrame = dataframe_dict[COMMUNITY_REPORT_TABLE]
 
     response, context_data = await api.global_search(
         config=config,
         nodes=final_nodes,
         entities=final_entities,
+        communities=final_communities,
         community_reports=final_community_reports,
         community_level=community_level,
+        dynamic_community_selection=dynamic_community_selection,
         response_type=response_type,
         query=query
     )
@@ -206,6 +213,7 @@ async def global_search_streaming(
         root_dir: str,
         config_filepath: Optional[str] = None,
         community_level: Optional[int] = 2,
+        dynamic_community_selection: bool = False,
         response_type: Optional[str] = 'Multiple Paragraphs'
 ) -> AsyncGenerator:
     """Perform a global search and return the context data and response via a generator.
@@ -229,19 +237,22 @@ async def global_search_streaming(
     dataframe_dict = await resolve_parquet_files(
         root_dir=root_dir,
         config=config,
-        parquet_list=local_search_parquet_list,
+        parquet_list=global_search_parquet_list,
         optional_list=optional_parquet_list
     )
     final_nodes: pd.DataFrame = dataframe_dict[ENTITY_NODES_TABLE]
     final_entities: pd.DataFrame = dataframe_dict[ENTITY_EMBEDDING_TABLE]
+    final_communities: pd.DataFrame = dataframe_dict[COMMUNITIES_TABLE]
     final_community_reports: pd.DataFrame = dataframe_dict[COMMUNITY_REPORT_TABLE]
 
     async for stream_chunk in api.global_search_streaming(
             config=config,
             nodes=final_nodes,
             entities=final_entities,
+            communities=final_communities,
             community_reports=final_community_reports,
             community_level=community_level,
+            dynamic_community_selection=dynamic_community_selection,
             response_type=response_type,
             query=query
     ):
