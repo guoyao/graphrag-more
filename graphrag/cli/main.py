@@ -12,7 +12,6 @@ from typing import Annotated
 
 import typer
 
-from graphrag.index.emit.types import TableEmitterType
 from graphrag.logging.types import ReporterType
 from graphrag.prompt_tune.defaults import (
     MAX_TOKEN_COUNT,
@@ -47,19 +46,28 @@ def path_autocomplete(
         regex = re.escape(pattern).replace(r"\?", ".").replace(r"\*", ".*")
         return re.fullmatch(regex, string) is not None
 
+    from pathlib import Path
+
     def completer(incomplete: str) -> list[str]:
-        items = os.listdir()
+        # List items in the current directory as Path objects
+        items = Path().iterdir()
         completions = []
+
         for item in items:
-            if not file_okay and Path(item).is_file():
+            # Filter based on file/directory properties
+            if not file_okay and item.is_file():
                 continue
-            if not dir_okay and Path(item).is_dir():
+            if not dir_okay and item.is_dir():
                 continue
             if readable and not os.access(item, os.R_OK):
                 continue
             if writable and not os.access(item, os.W_OK):
                 continue
-            completions.append(item)
+
+            # Append the name of the matching item
+            completions.append(item.name)
+
+        # Apply wildcard matching if required
         if match_wildcard:
             completions = filter(
                 lambda i: wildcard_match(i, match_wildcard)
@@ -67,6 +75,8 @@ def path_autocomplete(
                 else False,
                 completions,
             )
+
+        # Return completions that start with the given incomplete string
         return [i for i in completions if i.startswith(incomplete)]
 
     return completer
@@ -138,9 +148,6 @@ def _index_cli(
     reporter: Annotated[
         ReporterType, typer.Option(help="The progress reporter to use.")
     ] = ReporterType.RICH,
-    emit: Annotated[
-        str, typer.Option(help="The data formats to emit, comma-separated.")
-    ] = TableEmitterType.Parquet.value,
     dry_run: Annotated[
         bool,
         typer.Option(
@@ -175,7 +182,6 @@ def _index_cli(
         cache=cache,
         reporter=ReporterType(reporter),
         config_filepath=config,
-        emit=[TableEmitterType(value.strip()) for value in emit.split(",")],
         dry_run=dry_run,
         skip_validation=skip_validation,
         output_dir=output,
@@ -209,9 +215,6 @@ def _update_cli(
     reporter: Annotated[
         ReporterType, typer.Option(help="The progress reporter to use.")
     ] = ReporterType.RICH,
-    emit: Annotated[
-        str, typer.Option(help="The data formats to emit, comma-separated.")
-    ] = TableEmitterType.Parquet.value,
     cache: Annotated[bool, typer.Option(help="Use LLM cache.")] = True,
     skip_validation: Annotated[
         bool,
@@ -243,7 +246,6 @@ def _update_cli(
         cache=cache,
         reporter=ReporterType(reporter),
         config_filepath=config,
-        emit=[TableEmitterType(value.strip()) for value in emit.split(",")],
         skip_validation=skip_validation,
         output_dir=output,
     )

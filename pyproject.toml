@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "graphrag-more"
 # Maintainers: do not change the version here manually, use ./scripts/release.sh
-version = "0.5.0.1"
+version = "0.9.0"
 description = "基于微软GraphRAG，支持使用百度千帆、阿里通义、Ollama等模型"
 authors = [
     "Guoyao Wu <guoyao.me@gmail.com>",
@@ -36,17 +36,16 @@ environs = "^11.0.0"
 datashaper = "^0.0.49"
 
 # Vector Stores
-azure-search-documents = "^11.4.0"
-lancedb = "^0.13.0"
+azure-search-documents = "^11.5.2"
+lancedb = "^0.17.0"
 
 # Async IO
-aiolimiter = "^1.1.0"
 aiofiles = "^24.1.0"
 
 # LLM
-openai = "^1.51.2"
+openai = "^1.57.0"
 nltk = "3.9.1"
-tiktoken = "^0.7.0"
+tiktoken = "^0.8.0"
 
 # Data-Sci
 numpy = "^1.25.2"
@@ -62,47 +61,50 @@ pyyaml = "^6.0.2"
 pyaml-env = "^1.2.1"
 python-dotenv = "^1.0.0"
 
-# Network
-tenacity = "^8.5.0"
-
-pydantic = "^2.9.2"
-rich = "^13.6.0"
+pydantic = "^2.10.3"
+rich = "^13.9.4"
 devtools = "^0.12.2"
 typing-extensions = "^4.12.2"
 
 #Azure
-azure-storage-blob = "^12.22.0"
-azure-identity = "^1.17.1"
-json-repair = "^0.30.0"
+azure-storage-blob = "^12.24.0"
+azure-identity = "^1.19.0"
 
-future = "^1.0.0"
-typer = "^0.12.5"
+future = "^1.0.0" # Needed until graspologic fixes their dependency
+typer = "^0.15.1"
+fnllm = "^0.0.10"
+
+tenacity = "^8.5.0"
+json-repair = "^0.30.3"
+tqdm = "^4.67.1"
+httpx = "^0.27.2"
 
 # more
-langchain-community = "^0.2.6,!=0.2.7,!=0.2.8,!=0.2.9,!=0.2.10,!=0.2.11"
-langchain-core = "^0.2.29"
+langchain-community = "^0.2.19"
+langchain-core = "^0.2.43"
 langchain-ollama = "^0.1.3"
-qianfan = "^0.4.5,!=0.4.8"
-dashscope = "^1.20.3"
-ollama = "^0.3.1"
+qianfan = "^0.4.12.1"
+dashscope = "^1.20.14"
+ollama = "^0.4.4"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.6.0"
 ipykernel = "^6.29.4"
 jupyter = "^1.1.1"
 nbconvert = "^7.16.3"
-poethepoet = "^0.28.0"
+poethepoet = "^0.31.1"
 pyright = "^1.1.384"
 pytest = "^8.3.2"
 pytest-asyncio = "^0.24.0"
 pytest-timeout = "^2.3.1"
-ruff = "^0.6.9"
+ruff = "^0.8.2"
 semversioner = "^2.0.3"
 update-toml = "^0.2.1"
-deptry = "^0.20.0"
+deptry = "^0.21.1"
 mkdocs-material = "^9.5.39"
 mkdocs-jupyter = "^0.25.0"
 mkdocs-exclude-search = "^0.6.6"
+pytest-dotenv = "^0.5.2"
 mkdocs-typer = "^0.0.3"
 
 [build-system]
@@ -232,9 +234,6 @@ select = [
 ignore = [
     # Ignore module names shadowing Python builtins
     "A005",
-    # Deprecated Rules
-    "ANN101",
-    "ANN102",
     # Conflicts with interface argument checking
     "ARG002",
     "ANN204",
@@ -265,5 +264,4 @@ exclude = ["**/node_modules", "**/__pycache__"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 timeout = 1000
-# log_cli = true
-# log_cli_level = "INFO"
+env_files = [".env"]
