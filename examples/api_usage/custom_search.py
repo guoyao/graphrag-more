@@ -183,9 +183,6 @@ def build_local_context_builder() -> LocalSearchMixedContext:
         collection_name='default-entity-description',
     )
     description_embedding_store.connect(db_uri=LANCEDB_URI)
-    entity_description_embeddings = store_entity_semantic_embeddings(
-        entities=entities, vectorstore=description_embedding_store
-    )
 
     print(f'Entity count: {len(entity_df)}')
     entity_df.head()
