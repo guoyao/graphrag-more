@@ -9,7 +9,7 @@ encoding_model: cl100k_base # this needs to be matched to your model!
 llm:
   api_key: ${GRAPHRAG_API_KEY} # set this in the generated .env file
   type: openai_chat # or azure_openai_chat
-  model: qianfan.ERNIE-3.5-128K
+  model: qianfan.ERNIE-Speed-Pro-128K
   model_supports_json: false # recommended if this is available for your model, original default is true
   # max_tokens: 4000
   # tokens_per_minute: 150_000 # set a leaky bucket throttle
@@ -25,8 +25,8 @@ async_mode: asyncio # or threaded
 
 embeddings:
   async_mode: asyncio # or threaded
-  # batch_size: 16 # the number of documents to send in a single request
-  # batch_max_tokens: 8191 # the maximum number of tokens to send in a single request
+  batch_size: 1 # the number of documents to send in a single request, original default is 16
+  batch_max_tokens: 8191 # the maximum number of tokens to send in a single request, original default is 8191
   vector_store:
     type: lancedb
     db_uri: 'output/lancedb'
@@ -35,7 +35,7 @@ embeddings:
   llm:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
-    model: qianfan.bge-large-zh
+    model: qianfan.tao-8k
     # tokens_per_minute: 150_000 # set a leaky bucket throttle
     # requests_per_minute: 10_000 # set a leaky bucket throttle
     # concurrent_requests: 25 # the number of parallel inflight requests that may be made

@@ -47,8 +47,8 @@ api_key = ''
 api_base = ''
 
 # 百度千帆
-# llm_model = 'qianfan.ERNIE-3.5-128K'
-# embedding_model = 'qianfan.bge-large-zh'
+# llm_model = 'qianfan.ERNIE-Speed-Pro-128K'
+# embedding_model = 'qianfan.tao-8k'
 # llm_temperature = 1e-10  # 百度千帆 temperature 范围：(0, 1.0]
 # json_mode = False
 
