@@ -27,6 +27,11 @@ from fnllm.openai.llm.services.usage_extractor import OpenAIUsageExtractor
 from openai.types.embedding import Embedding
 
 from graphrag.llm.others.factories import is_valid_llm_type, use_embeddings
+from pydantic import BaseModel
+
+
+class Embeddings(BaseModel):
+    values: list[list[float]]
 
 
 class OpenAIEmbeddingsLLMImpl(
@@ -110,12 +115,24 @@ class OpenAIEmbeddingsLLMImpl(
         parameters: OpenAIEmbeddingsParameters,
         bypass_cache: bool,
     ) -> OpenAICreateEmbeddingResponseModel:
-        # TODO: check if we need to remove max_tokens and n from the keys
-        return await self._cache.get_or_insert(
-            lambda: self._client.embeddings.create(
+
+        async def execute_llm():
+            model = parameters.get('model', '')
+            llm_type, *models = model.split('.')
+            if is_valid_llm_type(llm_type):
+                args = {**parameters, 'model': '.'.join(models)}
+                embeddings_llm = use_embeddings(llm_type, **args)
+                values = await embeddings_llm.aembed_documents(prompt)
+                return Embeddings(values=values)
+
+            return await self._client.embeddings.create(
                 input=prompt,
                 **parameters,
-            ),
+            )
+
+        # TODO: check if we need to remove max_tokens and n from the keys
+        return await self._cache.get_or_insert(
+            execute_llm,
             prefix=f"embeddings_{name}" if name else "embeddings",
             key_data={"input": prompt, "parameters": parameters},
             name=name,
@@ -134,25 +151,24 @@ class OpenAIEmbeddingsLLMImpl(
             local_model_parameters
         )
 
-        model = embeddings_parameters.get('model', '')
-        llm_type, *models = model.split('.')
-        if is_valid_llm_type(llm_type):
-            args = {**embeddings_parameters, 'model': '.'.join(models)}
-            result = await use_embeddings(llm_type, **args).aembed_documents(prompt)
-            embeddings = to_embeddings(result)
-            return OpenAIEmbeddingsOutput(
-                raw_input=prompt,
-                raw_output=embeddings,
-                embeddings=[d.embedding for d in embeddings],
-                usage=None,
-            )
-
         response = await self._call_embeddings_or_cache(
             name,
             prompt=prompt,
             parameters=embeddings_parameters,
             bypass_cache=bypass_cache,
         )
+
+        model = embeddings_parameters.get('model', '')
+        llm_type, *models = model.split('.')
+        if is_valid_llm_type(llm_type):
+            result = cast(Embeddings, response)
+            embeddings = to_embeddings(result.values)
+            return OpenAIEmbeddingsOutput(
+                raw_input=prompt,
+                raw_output=embeddings,
+                embeddings=[d.embedding for d in embeddings],
+                usage=None,
+            )
 
         return OpenAIEmbeddingsOutput(
             raw_input=prompt,
@@ -167,4 +183,6 @@ class OpenAIEmbeddingsLLMImpl(
 
 
 def to_embeddings(values: list[list[float]]) -> list[Embedding]:
-    return [Embedding(embedding=v, index=i, object='embedding') for i, v in enumerate(values)]
+    return [Embedding(
+        embedding=v, index=i, object='embedding'
+    ) for i, v in enumerate(values)]

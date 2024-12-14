@@ -36,6 +36,9 @@ from graphrag.llm.others.factories import is_valid_llm_type, use_chat_llm
 from langchain_core.messages import AIMessage
 
 
+AIMessage.model_dump = AIMessage.to_json
+
+
 class OpenAITextChatLLMImpl(
     BaseLLM[
         OpenAIChatCompletionInput,
@@ -127,12 +130,23 @@ class OpenAITextChatLLMImpl(
         parameters: OpenAIChatParameters,
         bypass_cache: bool,
     ) -> OpenAIChatCompletionModel:
-        # TODO: check if we need to remove max_tokens and n from the keys
-        return await self._cache.get_or_insert(
-            lambda: self._client.chat.completions.create(
+
+        def execute_llm():
+            model = parameters.get('model', '')
+            llm_type, *models = model.split('.')
+            if is_valid_llm_type(llm_type):
+                args = {**parameters, 'model': '.'.join(models)}
+                chat_llm = use_chat_llm(llm_type, model=args['model'])
+                return chat_llm.ainvoke(messages, **args)
+
+            return self._client.chat.completions.create(
                 messages=cast(Iterator[ChatCompletionMessageParam], messages),
                 **parameters,
-            ),
+            )
+
+        # TODO: check if we need to remove max_tokens and n from the keys
+        return await self._cache.get_or_insert(
+            execute_llm,
             prefix=f"chat_{name}" if name else "chat",
             key_data={"messages": messages, "parameters": parameters},
             name=name,
@@ -156,33 +170,33 @@ class OpenAITextChatLLMImpl(
             local_model_parameters
         )
 
-        model = completion_parameters.get('model', '')
-        llm_type, *models = model.split('.')
-        if is_valid_llm_type(llm_type):
-            args = {**completion_parameters, 'model': '.'.join(models)}
-            chat_llm = use_chat_llm(llm_type, model=args['model'])
-            response = await chat_llm.ainvoke(messages, **args)
-            token_usage = response.response_metadata and \
-                response.response_metadata.get('token_usage') or \
-                response.response_metadata.get('usage') or None
-            return OpenAIChatOutput(
-                raw_input=prompt_message,
-                raw_output=to_chat_completion_message(response),
-                content=response.content,
-                usage=LLMUsageMetrics(
-                    input_tokens=token_usage.get('prompt_tokens') or token_usage.get('input_tokens'),
-                    output_tokens=token_usage.get('completion_tokens') or token_usage.get('output_tokens'),
-                )
-                if token_usage
-                else None,
-            )
-
         completion = await self._call_completion_or_cache(
             name,
             messages=messages,
             parameters=completion_parameters,
             bypass_cache=bypass_cache,
         )
+
+        model = completion_parameters.get('model', '')
+        llm_type, *_ = model.split('.')
+        if is_valid_llm_type(llm_type):
+            message = cast(AIMessage, completion)
+            token_usage = (message.response_metadata and
+                           message.response_metadata.get('token_usage') or
+                           message.response_metadata.get('usage') or None)
+            return OpenAIChatOutput(
+                raw_input=prompt_message,
+                raw_output=to_chat_completion_message(message),
+                content=message.content,
+                usage=LLMUsageMetrics(
+                    input_tokens=(token_usage.get('prompt_tokens') or
+                                  token_usage.get('input_tokens')),
+                    output_tokens=(token_usage.get('completion_tokens') or
+                                   token_usage.get('output_tokens')),
+                )
+                if token_usage
+                else None,
+            )
 
         response = completion.choices[0].message
 
