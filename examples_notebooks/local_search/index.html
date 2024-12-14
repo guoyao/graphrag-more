@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
     
     
       
@@ -3725,9 +3725,11 @@ Cell <span class="ansi-green-fg">In[16], line 1</span>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">context_data</span><span class="p">[</span><span class="s2">"reports"</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">if</span> <span class="s2">"reports"</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">context_data</span><span class="p">:</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">context_data</span><span class="p">[</span><span class="s2">"reports"</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-17">result.context_data["reports"].head()</div>
+<div class="clipboard-copy-txt" id="cell-17">if "reports" in result.context_data:
+    result.context_data["reports"].head()</div>
 </div>
 </div>
 </div>
@@ -3743,7 +3745,8 @@ Cell <span class="ansi-green-fg">In[16], line 1</span>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
 Cell <span class="ansi-green-fg">In[17], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">result</span><span style="color: rgb(98,98,98)">.</span>context_data[<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">reports</span><span style="color: rgb(175,0,0)">"</span>]<span style="color: rgb(98,98,98)">.</span>head()
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">reports</span><span style="color: rgb(175,0,0)">"</span> <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span class="ansi-yellow-bg">result</span><span style="color: rgb(98,98,98)">.</span>context_data:
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     result<span style="color: rgb(98,98,98)">.</span>context_data[<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">reports</span><span style="color: rgb(175,0,0)">"</span>]<span style="color: rgb(98,98,98)">.</span>head()
 
 <span class="ansi-red-fg">NameError</span>: name 'result' is not defined</pre>
 </div>
@@ -3972,18 +3975,21 @@ Cell <span class="ansi-green-fg">In[21], line 5</span>
 <span class="ansi-green-intense-fg ansi-bold">      7</span> )
 <span class="ansi-green-intense-fg ansi-bold">      8</span> <span style="color: rgb(0,135,0)">print</span>(candidate_questions<span style="color: rgb(98,98,98)">.</span>response)
 
-File <span class="ansi-green-fg">~/work/graphrag-more/graphrag-more/graphrag/query/question_gen/local_gen.py:74</span>, in <span class="ansi-cyan-fg">LocalQuestionGen.agenerate</span><span class="ansi-blue-fg">(self, question_history, context_data, question_count, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">     70</span>     conversation_history <span style="color: rgb(98,98,98)">=</span> ConversationHistory<span style="color: rgb(98,98,98)">.</span>from_list(history)
-<span class="ansi-green-intense-fg ansi-bold">     72</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> context_data <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-intense-fg ansi-bold">     73</span>     <span style="color: rgb(95,135,135)"># generate context data based on the question history</span>
-<span class="ansi-green-fg">---&gt; 74</span>     context_data, context_records <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">context_builder</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">build_context</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-intense-fg ansi-bold">     75</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">question_text</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     76</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">conversation_history</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">conversation_history</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     77</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     78</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">context_builder_params</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     79</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>  <span style="color: rgb(95,135,135)"># type: ignore</span>
-<span class="ansi-green-intense-fg ansi-bold">     80</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-<span class="ansi-green-intense-fg ansi-bold">     81</span>     context_records <span style="color: rgb(98,98,98)">=</span> {<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">context_data</span><span style="color: rgb(175,0,0)">"</span>: context_data}
+File <span class="ansi-green-fg">~/work/graphrag-more/graphrag-more/graphrag/query/question_gen/local_gen.py:79</span>, in <span class="ansi-cyan-fg">LocalQuestionGen.agenerate</span><span class="ansi-blue-fg">(self, question_history, context_data, question_count, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     73</span>     conversation_history <span style="color: rgb(98,98,98)">=</span> ConversationHistory<span style="color: rgb(98,98,98)">.</span>from_list(history)
+<span class="ansi-green-intense-fg ansi-bold">     75</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> context_data <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-intense-fg ansi-bold">     76</span>     <span style="color: rgb(95,135,135)"># generate context data based on the question history</span>
+<span class="ansi-green-intense-fg ansi-bold">     77</span>     result <span style="color: rgb(98,98,98)">=</span> cast(
+<span class="ansi-green-intense-fg ansi-bold">     78</span>         <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">ContextBuilderResult</span><span style="color: rgb(175,0,0)">"</span>,
+<span class="ansi-green-fg">---&gt; 79</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">context_builder</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">build_context</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">     80</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">question_text</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     81</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">conversation_history</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">conversation_history</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     82</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     83</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">context_builder_params</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     84</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>,
+<span class="ansi-green-intense-fg ansi-bold">     85</span>     )
+<span class="ansi-green-intense-fg ansi-bold">     86</span>     context_data <span style="color: rgb(98,98,98)">=</span> cast(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">str</span><span style="color: rgb(175,0,0)">"</span>, result<span style="color: rgb(98,98,98)">.</span>context_chunks)
+<span class="ansi-green-intense-fg ansi-bold">     87</span>     context_records <span style="color: rgb(98,98,98)">=</span> result<span style="color: rgb(98,98,98)">.</span>context_records
 
 File <span class="ansi-green-fg">~/work/graphrag-more/graphrag-more/graphrag/query/structured_search/local_search/mixed_context.py:139</span>, in <span class="ansi-cyan-fg">LocalSearchMixedContext.build_context</span><span class="ansi-blue-fg">(self, query, conversation_history, include_entity_names, exclude_entity_names, conversation_history_max_turns, conversation_history_user_turns_only, max_tokens, text_unit_prop, community_prop, top_k_mapped_entities, top_k_relationships, include_community_rank, include_entity_rank, rank_description, include_relationship_weight, relationship_ranking_attribute, return_candidate_context, use_community_summary, min_community_rank, community_context_name, column_delimiter, **kwargs)</span>
 <span class="ansi-green-intense-fg ansi-bold">    134</span>     pre_user_questions <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">"</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(98,98,98)">.</span>join(
