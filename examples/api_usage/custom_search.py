@@ -17,7 +17,6 @@ from graphrag.query.indexer_adapters import (
     read_indexer_relationships,
     # read_indexer_covariates,
 )
-from graphrag.query.input.loaders.dfs import store_entity_semantic_embeddings
 from graphrag.query.llm.oai.chat_openai import ChatOpenAI
 from graphrag.query.llm.oai.embedding import OpenAIEmbedding
 from graphrag.query.llm.oai.typing import OpenaiApiType
@@ -349,9 +348,6 @@ def build_drift_search_engine() -> DRIFTSearch:
         collection_name='default-entity-description',
     )
     description_embedding_store.connect(db_uri=LANCEDB_URI)
-    entity_description_embeddings = store_entity_semantic_embeddings(
-        entities=entities, vectorstore=description_embedding_store
-    )
 
     print(f'Entity count: {len(entity_df)}')
     entity_df.head()
@@ -382,7 +378,7 @@ def build_drift_search_engine() -> DRIFTSearch:
         entities=entities,
         relationships=relationships,
         reports=reports,
-        entity_text_embeddings=entity_description_embeddings,
+        entity_text_embeddings=description_embedding_store,
         text_units=text_units
     )
 

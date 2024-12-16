@@ -13,8 +13,8 @@ from graphrag.config.load_config import load_config
 from graphrag.config.models.graph_rag_config import GraphRagConfig
 from graphrag.config.resolve_path import resolve_paths
 from graphrag.index.create_pipeline_config import create_pipeline_config
-from graphrag.storage.factory import create_storage
-from graphrag.utils.storage import _load_table_from_storage
+from graphrag.storage.factory import StorageFactory
+from graphrag.utils.storage import load_table_from_storage
 
 ENTITY_NODES_TABLE = 'create_final_nodes'
 ENTITY_EMBEDDING_TABLE = 'create_final_entities'
@@ -317,10 +317,13 @@ async def resolve_parquet_files(
     """Read parquet files to a dataframe dict."""
     dataframe_dict = {}
     pipeline_config = create_pipeline_config(config)
-    storage_obj = create_storage(pipeline_config.storage)
+    storage_config = pipeline_config.storage.model_dump()  # type: ignore
+    storage_obj = StorageFactory().create_storage(
+        storage_type=storage_config["type"], kwargs=storage_config
+    )
     for parquet_file in parquet_list:
         df_key = parquet_file.split('.')[0]
-        df_value = await _load_table_from_storage(name=parquet_file, storage=storage_obj)
+        df_value = await load_table_from_storage(name=parquet_file, storage=storage_obj)
         dataframe_dict[df_key] = df_value
 
     # for optional parquet files, set the dict entry to None instead of erroring out if it does not exist
@@ -329,7 +332,7 @@ async def resolve_parquet_files(
             file_exists = await storage_obj.has(optional_file)
             df_key = optional_file.split('.')[0]
             if file_exists:
-                df_value = await _load_table_from_storage(name=optional_file, storage=storage_obj)
+                df_value = await load_table_from_storage(name=optional_file, storage=storage_obj)
                 dataframe_dict[df_key] = df_value
             else:
                 dataframe_dict[df_key] = None
