@@ -2286,114 +2286,38 @@ report_df.head()</div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Total report count: 20
-Report count after filtering by community level 2: 17
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_2081/1512985616.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> entity_df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>read_parquet<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f"{INPUT_DIR}/{ENTITY_TABLE}.parquet"</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> report_df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>read_parquet<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f"{INPUT_DIR}/{COMMUNITY_REPORT_TABLE}.parquet"</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> entity_embedding_df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>read_parquet<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f"{INPUT_DIR}/{ENTITY_EMBEDDING_TABLE}.parquet"</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> 
+<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg"> </span>communities <span class="ansi-blue-fg">=</span> read_indexer_communities<span class="ansi-blue-fg">(</span>community_df<span class="ansi-blue-fg">,</span> entity_df<span class="ansi-blue-fg">,</span> report_df<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> reports <span class="ansi-blue-fg">=</span> read_indexer_reports<span class="ansi-blue-fg">(</span>report_df<span class="ansi-blue-fg">,</span> entity_df<span class="ansi-blue-fg">,</span> COMMUNITY_LEVEL<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> entities <span class="ansi-blue-fg">=</span> read_indexer_entities<span class="ansi-blue-fg">(</span>entity_df<span class="ansi-blue-fg">,</span> entity_embedding_df<span class="ansi-blue-fg">,</span> COMMUNITY_LEVEL<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span> 
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+<span class="ansi-green-fg">~/work/graphrag-more/graphrag-more/graphrag/query/indexer_adapters.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(final_communities, final_nodes, final_community_reports)</span>
+<span class="ansi-green-intense-fg ansi-bold">    180</span>     reports_df <span class="ansi-blue-fg">=</span> final_community_reports
+<span class="ansi-green-intense-fg ansi-bold">    181</span> 
+<span class="ansi-green-intense-fg ansi-bold">    182</span>     <span class="ansi-red-fg"># ensure communities matches community reports</span>
+<span class="ansi-green-intense-fg ansi-bold">    183</span>     missing_reports = communities_df[
+<span class="ansi-green-fg">--&gt; 184</span><span class="ansi-red-fg">         </span><span class="ansi-blue-fg">~</span>communities_df<span class="ansi-blue-fg">.</span>community<span class="ansi-blue-fg">.</span>isin<span class="ansi-blue-fg">(</span>reports_df<span class="ansi-blue-fg">.</span>community<span class="ansi-blue-fg">.</span>unique<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    185</span>     ].community.to_list()
+<span class="ansi-green-intense-fg ansi-bold">    186</span>     <span class="ansi-green-fg">if</span> len<span class="ansi-blue-fg">(</span>missing_reports<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    187</span>         log<span class="ansi-blue-fg">.</span>warning<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">"Missing reports for communities: %s"</span><span class="ansi-blue-fg">,</span> missing_reports<span class="ansi-blue-fg">)</span>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>community</th>
-<th>full_content</th>
-<th>level</th>
-<th>rank</th>
-<th>title</th>
-<th>rank_explanation</th>
-<th>summary</th>
-<th>findings</th>
-<th>full_content_json</th>
-<th>id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>10</td>
-<td># Paranormal Military Squad at Dulce Base: Dec...</td>
-<td>1</td>
-<td>8.5</td>
-<td>Paranormal Military Squad at Dulce Base: Decod...</td>
-<td>The impact severity rating is high due to the ...</td>
-<td>The Paranormal Military Squad, stationed at Du...</td>
-<td>[{'explanation': 'Jordan is a central figure i...</td>
-<td>{\n    "title": "Paranormal Military Squad at ...</td>
-<td>1ba2d200-dd26-4693-affe-a5539d0a0e0d</td>
-</tr>
-<tr>
-<th>1</th>
-<td>11</td>
-<td># Dulce and Paranormal Military Squad Operatio...</td>
-<td>1</td>
-<td>8.5</td>
-<td>Dulce and Paranormal Military Squad Operations</td>
-<td>The impact severity rating is high due to the ...</td>
-<td>The community centers around Dulce, a secretiv...</td>
-<td>[{'explanation': 'Dulce is described as a top-...</td>
-<td>{\n    "title": "Dulce and Paranormal Military...</td>
-<td>a8a530b0-ae6b-44ea-b11c-9f70d138298d</td>
-</tr>
-<tr>
-<th>2</th>
-<td>12</td>
-<td># Paranormal Military Squad and Dulce Base Ope...</td>
-<td>1</td>
-<td>7.5</td>
-<td>Paranormal Military Squad and Dulce Base Opera...</td>
-<td>The impact severity rating is relatively high ...</td>
-<td>The community centers around the Paranormal Mi...</td>
-<td>[{'explanation': 'Taylor is a central figure w...</td>
-<td>{\n    "title": "Paranormal Military Squad and...</td>
-<td>0478975b-c805-4cc1-b746-82f3e689e2f3</td>
-</tr>
-<tr>
-<th>3</th>
-<td>13</td>
-<td># Mission Dynamics and Leadership: Cruz and Wa...</td>
-<td>1</td>
-<td>7.5</td>
-<td>Mission Dynamics and Leadership: Cruz and Wash...</td>
-<td>The impact severity rating is relatively high ...</td>
-<td>This report explores the intricate dynamics of...</td>
-<td>[{'explanation': 'Cruz is a central figure in ...</td>
-<td>{\n    "title": "Mission Dynamics and Leadersh...</td>
-<td>b56f6e68-3951-4f07-8760-63700944a375</td>
-</tr>
-<tr>
-<th>4</th>
-<td>14</td>
-<td># Dulce Base and Paranormal Military Squad: Br...</td>
-<td>1</td>
-<td>8.5</td>
-<td>Dulce Base and Paranormal Military Squad: Brid...</td>
-<td>The impact severity rating is high due to the ...</td>
-<td>The community centers around the Dulce Base, a...</td>
-<td>[{'explanation': 'Sam Rivera, a member of the ...</td>
-<td>{\n    "title": "Dulce Base and Paranormal Mil...</td>
-<td>736e7006-d050-4abb-a122-00febf3f540f</td>
-</tr>
-</tbody>
-</table>
-</div>
+<span class="ansi-green-fg">~/.cache/pypoetry/virtualenvs/graphrag-more-_hBYYCdb-py3.11/lib/python3.11/site-packages/pandas/core/generic.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">   6295</span>             <span class="ansi-green-fg">and</span> name <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_accessors
+<span class="ansi-green-intense-fg ansi-bold">   6296</span>             <span class="ansi-green-fg">and</span> self<span class="ansi-blue-fg">.</span>_info_axis<span class="ansi-blue-fg">.</span>_can_hold_identifiers_and_holds_name<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   6297</span>         ):
+<span class="ansi-green-intense-fg ansi-bold">   6298</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">[</span>name<span class="ansi-blue-fg">]</span>
+<span class="ansi-green-fg">-&gt; 6299</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> object<span class="ansi-blue-fg">.</span>__getattribute__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">AttributeError</span>: 'DataFrame' object has no attribute 'community'</pre>
 </div>
 </div>
 </div>
@@ -2456,15 +2380,15 @@ Report count after filtering by community level 2: 17
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[6], line 5</span>
+Cell <span class="ansi-green-fg">In[6], line 2</span>
 <span class="ansi-green-intense-fg ansi-bold">      1</span> context_builder <span style="color: rgb(98,98,98)">=</span> GlobalCommunityContext(
-<span class="ansi-green-intense-fg ansi-bold">      2</span>     community_reports<span style="color: rgb(98,98,98)">=</span>reports,
+<span class="ansi-green-fg">----&gt; 2</span>     community_reports<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">reports</span>,
 <span class="ansi-green-intense-fg ansi-bold">      3</span>     communities<span style="color: rgb(98,98,98)">=</span>communities,
 <span class="ansi-green-intense-fg ansi-bold">      4</span>     entities<span style="color: rgb(98,98,98)">=</span>entities,  <span style="color: rgb(95,135,135)"># default to None if you don't want to use community weights for ranking</span>
-<span class="ansi-green-fg">----&gt; 5</span>     token_encoder<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">token_encoder</span>,
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     token_encoder<span style="color: rgb(98,98,98)">=</span>token_encoder,
 <span class="ansi-green-intense-fg ansi-bold">      6</span> )
 
-<span class="ansi-red-fg">NameError</span>: name 'token_encoder' is not defined</pre>
+<span class="ansi-red-fg">NameError</span>: name 'reports' is not defined</pre>
 </div>
 </div>
 </div>
