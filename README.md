@@ -53,6 +53,11 @@ curl https://raw.githubusercontent.com/guoyao/graphrag-more/refs/heads/main/exam
 ```shell
 graphrag init --root ./ragtest
 ```
+> 如果基于源码方式，请在源码根目录下使用poetry命令运行：
+>
+> ```shell
+> poetry run poe init --root ./ragtest
+> ```
 
 ### 4. 移动和修改 settings.yaml 文件
 根据选用的模型（千帆、通义、Ollama）和使用的`graphrag-more`版本（不同版本settings.yaml可能不一样），
@@ -89,6 +94,11 @@ cp ./example_settings/ollama/settings.yaml ./ragtest
 ```shell
 graphrag index --root ./ragtest
 ```
+> 如果基于源码方式，请在源码根目录下使用poetry命令运行：
+>
+> ```shell
+> poetry run poe index --root ./ragtest
+> ```
 构建过程可能会触发 rate limit （限速）导致构建失败，重复执行几次，或者尝试调小 settings.yaml 中
 的 requests_per_minute 和 concurrent_requests 配置，然后重试
 
@@ -106,6 +116,21 @@ graphrag query \
 --method local \
 --query "Who is Scrooge, and what are his main relationships?"
 ```
+> 如果基于源码方式，请在源码根目录下使用poetry命令运行：
+>
+> ```shell
+> # global query
+> poetry run poe query \
+> --root ./ragtest \
+> --method global \
+> --query "What are the top themes in this story?"
+>
+> # local query
+> poetry run poe query \
+> --root ./ragtest \
+> --method local \
+> --query "Who is Scrooge, and what are his main relationships?"
+> ```
 查询过程可能会出现json解析报错问题，原因是某些模型没按要求输出json格式，可以重复执行几次，或者修改 settings.yaml 的 llm.model 改用其他模型
 
 除了使用cli命令之外，也可以使用API方式来查询，以便集成到自己的项目中，API使用方式请参考：
