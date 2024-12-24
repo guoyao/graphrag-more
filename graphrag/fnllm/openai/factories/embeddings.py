@@ -32,6 +32,7 @@ def create_openai_embeddings_llm(
 
     limiter = create_limiter(config)
     return OpenAIEmbeddingsLLMImpl(
+        config,
         client,
         model=config.model,
         model_parameters=config.embeddings_parameters,

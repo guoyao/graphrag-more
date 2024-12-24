@@ -1,6 +1,15 @@
 # GraphRAG More
 
-基于 [微软GraphRAG](https://github.com/microsoft/graphrag) ，支持使用百度千帆、阿里通义、Ollama本地模型。
+GraphRAG More 基于 [微软GraphRAG](https://github.com/microsoft/graphrag) ，支持使用各种大模型：
+1. OpenAI接口兼容的模型（*微软GraphRAG本就支持，如果使用的模型接口兼容OpenAI，建议直接使用 [微软GraphRAG](https://github.com/microsoft/graphrag)* ）
+   * OpenAI
+   * Azure OpenAI
+   * 阿里通义
+   * 字节豆包
+   * Ollama本地模型
+   * 其他OpenAI接口兼容的模型
+2. 非OpenAI接口兼容的模型（*微软GraphRAG不支持*）
+   * 百度千帆（*推理服务V2版本接口兼容OpenAI，但目前V2版本接口不支持Embedding*）
 
 <div align="left">
   <a href="https://pypi.org/project/graphrag-more/">
@@ -18,14 +27,17 @@
 
 要求 [Python 3.10-3.12](https://www.python.org/downloads/)，建议使用 [pyenv](https://github.com/pyenv) 来管理多个python版本
 
-### 1. 安装 graphrag-more
+### 1. 安装 GraphRAG More
 ```shell
 pip install graphrag-more
+
+# 如果使用百度千帆，还需要安装qianfan sdk
+# pip install qianfan
 ```
 
 > 如需二次开发或者调试的话，也可以直接使用源码的方式，步骤如下：
 >
-> **下载 graphrag-more 代码库**
+> **下载 GraphRAG More 代码库**
 > ```shell
 > git clone https://github.com/guoyao/graphrag-more.git
 > ```
@@ -58,39 +70,51 @@ graphrag init --root ./ragtest
 > ```shell
 > poetry run poe init --root ./ragtest
 > ```
+这将在./ragtest目录中创建两个文件：`.env`和`settings.yaml`，`.env`包含运行GraphRAG所需的环境变量，`settings.yaml`包含GraphRAG全部设置。
 
-### 4. 移动和修改 settings.yaml 文件
-根据选用的模型（千帆、通义、Ollama）和使用的`graphrag-more`版本（不同版本settings.yaml可能不一样），
-将 `example_settings` 文件夹（比如：1.0.0 版本的[example_settings](https://github.com/guoyao/graphrag-more/tree/v1.0.0/example_settings)
-）对应模型的 settings.yaml 文件复制到 ragtest 目录，覆盖初始化过程生成的 settings.yaml 文件。
-```shell
-# 千帆
-cp ./example_settings/qianfan/settings.yaml ./ragtest
-
-# or 通义
-cp ./example_settings/tongyi/settings.yaml ./ragtest
-
-# or ollama
-cp ./example_settings/ollama/settings.yaml ./ragtest
-```
-每个settings.yaml里面都设置了默认的 llm 和 embeddings 模型，根据选用的模型修改 settings.yaml 文件的 model 配置
-* 千帆默认使用 qianfan.ERNIE-Speed-Pro-128K 和 qianfan.tao-8k ，**注意：必须带上 qianfan. 前缀 ！！！**
-* 通义默认使用 tongyi.qwen-plus 和 tongyi.text-embedding-v2 ，**注意：必须带上 tongyi. 前缀 ！！！**
-* Ollama默认使用 ollama.mistral:latest 和 ollama.quentinz/bge-large-zh-v1.5:latest ，**注意：<=0.3.0版本时，其llm模型不用带前缀，>=0.3.1版本时，其llm模型必须带上 ollama. 前缀，embeddings模型必须带 ollama. 前缀  ！！！**
-
-### 5. 构建前的准备
-根据选用的模型，配置对应的环境变量，若使用Ollama需要安装并下载对应模型
-* 千帆：需配置环境变量 QIANFAN_AK、QIANFAN_SK（**注意是应用的AK/SK，不是安全认证的Access Key/Secret Key**），如何获取请参考官方文档：https://cloud.baidu.com/doc/WENXINWORKSHOP/s/3lmokh7n6#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%BA%94%E7%94%A8%E7%9A%84ak%E5%92%8Csk
-* 通义：需配置环境变量 TONGYI_API_KEY（从0.3.6.1版本开始，也支持使用 DASHSCOPE_API_KEY，同时都配置的情况下 TONGYI_API_KEY 优先级高于 DASHSCOPE_API_KEY），如何获取请参考官方文档：https://help.aliyun.com/zh/model-studio/developer-reference/get-api-key
-* Ollama：
-  * 安装：https://ollama.com/download ，安装后启动
-  * 下载模型
+### 4. 配置
+1. `.env`<br/>
+在`.env`文件中配置`GRAPHRAG_API_KEY`，这是您所使用的大模型服务的API密钥，将其替换为您自己的API密钥。
+   * [阿里通义获取API Key官方文档](https://help.aliyun.com/zh/model-studio/developer-reference/get-api-key)
+   * [字节豆包获取API Key 官方文档](https://www.volcengine.com/docs/82379/1361424#%E6%9F%A5%E8%AF%A2-%E8%8E%B7%E5%8F%96-api-key)
+   * [百度千帆获取API Key官方文档](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Zm2ycv77m#api_key%E8%AF%B4%E6%98%8E) 
+   (注意：百度千帆的`API Key`是带有效期的，过期后需要重新获取)<br/>
+   百度千帆还需配置 qianfan sdk 所需的环境变量 `QIANFAN_ACCESS_KEY`、`QIANFAN_SECRET_KEY`，可以配置在系统环境变量中，也可以配置在`.env`文件中，
+   参考官方文档：[使用安全认证AK/SK调用流程](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/3lmokh7n6#%E3%80%90%E6%8E%A8%E8%8D%90%E3%80%91%E4%BD%BF%E7%94%A8%E5%AE%89%E5%85%A8%E8%AE%A4%E8%AF%81aksk%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B)
+   * Ollama 默认不需要配置`API Key`
+2. `settings.yaml`<br/>
+在`settings.yaml`文件中，根据您所使用的大模型配置`model`和`api_base`，`GraphRAG More`的`example_settings` 文件夹提供了
+百度千帆、阿里通义、字节豆包、Ollama 的`settings.yaml`文件供参考（详细的配置参考微软官方文档：https://microsoft.github.io/graphrag/config/yaml/ ），
+根据选用的模型和使用的`GraphRAG More`版本（不同版本`settings.yaml`可能不一样），您可以直接将将`example_settings`
+文件夹（比如：`GraphRAG More` 1.0.2 版本的 [example_settings](https://github.com/guoyao/graphrag-more/tree/v1.0.2/example_settings) ）对应模型的`settings.yaml`
+文件复制到 ragtest 目录，覆盖初始化过程生成的`settings.yaml`文件。
     ```shell
-    ollama pull mistral:latest
-    ollama pull quentinz/bge-large-zh-v1.5:latest
+    # 百度千帆
+    cp ./example_settings/qianfan/settings.yaml ./ragtest
+    
+    # or 阿里通义
+    cp ./example_settings/tongyi/settings.yaml ./ragtest
+    
+    # or 字节豆包
+    cp ./example_settings/doubao/settings.yaml ./ragtest
+    
+    # or ollama
+    cp ./example_settings/ollama/settings.yaml ./ragtest
     ```
+    `example_settings`的`settings.yaml`里面有的设置了默认的`model`，根据您选用的模型来修改`model`
+      * 百度千帆默认使用 ernie-speed-pro-128k 和 tao-8k
+      * 阿里通义默认使用 qwen-plus 和 text-embedding-v2
+      * 字节豆包需要配置模型ID，即推理接入点ID，不是模型名称
+      * Ollama默认使用 mistral:latest 和 quentinz/bge-large-zh-v1.5:latest
+        > 对于`Ollama`，需要在构建前安装`Ollama`并下载您选用的模型：
+        > * 安装`Ollama`：https://ollama.com/download ，安装后启动
+        > * 使用`Ollama`下载模型
+        >  ```shell
+        >  ollama pull mistral:latest # 默认使用的模型，请替换成您选用的模型
+        >  ollama pull quentinz/bge-large-zh-v1.5:latest # 默认使用的模型，请替换成您选用的模型
+        >  ```
 
-### 6. 构建索引
+### 5. 构建索引
 ```shell
 graphrag index --root ./ragtest
 ```
@@ -102,7 +126,7 @@ graphrag index --root ./ragtest
 构建过程可能会触发 rate limit （限速）导致构建失败，重复执行几次，或者尝试调小 settings.yaml 中
 的 requests_per_minute 和 concurrent_requests 配置，然后重试
 
-### 7. 执行查询
+### 6. 执行查询
 ```shell
 # global query
 graphrag query \
@@ -134,6 +158,6 @@ graphrag query \
 查询过程可能会出现json解析报错问题，原因是某些模型没按要求输出json格式，可以重复执行几次，或者修改 settings.yaml 的 llm.model 改用其他模型
 
 除了使用cli命令之外，也可以使用API方式来查询，以便集成到自己的项目中，API使用方式请参考：
-[examples/api_usage](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage)（注意：不同`graphrag-more`版本API用法可能不一样，参考所使用版本下的文件）
+[examples/api_usage](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage)（注意：不同`GraphRAG More`版本API用法可能不一样，参考所使用版本下的文件）
 * 基于已有配置文件查询：[search_by_config_file.py](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage/search_by_config_file.py)
 * 基于代码的自定义查询：[custom_search.py](https://github.com/guoyao/graphrag-more/tree/main/examples/api_usage/custom_search.py)

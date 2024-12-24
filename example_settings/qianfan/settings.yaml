@@ -9,8 +9,9 @@ encoding_model: cl100k_base # this needs to be matched to your model!
 llm:
   api_key: ${GRAPHRAG_API_KEY} # set this in the generated .env file
   type: openai_chat # or azure_openai_chat
-  model: qianfan.ERNIE-Speed-Pro-128K
+  model: ernie-speed-pro-128k # 建议使用上下文窗口不小于32K的模型
   model_supports_json: false # recommended if this is available for your model, original default is true
+  api_base: https://qianfan.baidubce.com/v2
   # max_tokens: 4000
   # tokens_per_minute: 150_000 # set a leaky bucket throttle
   # requests_per_minute: 120 # set a leaky bucket throttle，original default is 10_000
@@ -21,10 +22,10 @@ parallelization:
   stagger: 0.3
   # num_threads: 50 # the number of threads to use for parallel processing
 
-async_mode: asyncio # or threaded
+async_mode: threaded # or asyncio
 
 embeddings:
-  async_mode: asyncio # or threaded
+  async_mode: threaded # or asyncio
   batch_size: 1 # the number of documents to send in a single request, original default is 16
   batch_max_tokens: 8191 # the maximum number of tokens to send in a single request, original default is 8191
   vector_store:
@@ -35,10 +36,11 @@ embeddings:
   llm:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
-    model: qianfan.tao-8k
+    model: tao-8k
+    api_base: https://qianfan.baidubce.com/v2
     # tokens_per_minute: 150_000 # set a leaky bucket throttle
     # requests_per_minute: 10_000 # set a leaky bucket throttle
-    # concurrent_requests: 25 # the number of parallel inflight requests that may be made
+    concurrent_requests: 5 # the number of parallel inflight requests that may be made, original default is 25
 
 ### Input settings ###
 

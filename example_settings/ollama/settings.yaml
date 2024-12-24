@@ -9,8 +9,9 @@ encoding_model: cl100k_base # this needs to be matched to your model!
 llm:
   api_key: ${GRAPHRAG_API_KEY} # set this in the generated .env file
   type: openai_chat # or azure_openai_chat
-  model: ollama.mistral:latest
+  model: mistral:latest
   model_supports_json: true # recommended if this is available for your model.
+  api_base: http://localhost:11434/v1
   # max_tokens: 4000
   # tokens_per_minute: 150_000 # set a leaky bucket throttle
   # requests_per_minute: 10_000 # set a leaky bucket throttle
@@ -34,7 +35,8 @@ embeddings:
   llm:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
-    model: ollama.quentinz/bge-large-zh-v1.5:latest
+    model: quentinz/bge-large-zh-v1.5:latest
+    api_base: http://localhost:11434/api
     # tokens_per_minute: 150_000 # set a leaky bucket throttle
     # requests_per_minute: 10_000 # set a leaky bucket throttle
     # concurrent_requests: 25 # the number of parallel inflight requests that may be made

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "graphrag-more"
 # Maintainers: do not change the version here manually, use ./scripts/release.sh
-version = "1.0.1"
+version = "1.0.2"
 description = "基于微软GraphRAG，支持使用百度千帆、阿里通义、Ollama等模型"
 authors = [
     "Guoyao Wu <guoyao.me@gmail.com>",
@@ -77,15 +77,7 @@ fnllm = "^0.0.10"
 tenacity = "^8.5.0"
 json-repair = "^0.30.3"
 tqdm = "^4.67.1"
-httpx = "^0.27.2"
-
-# more
-langchain-community = "^0.2.19"
-langchain-core = "^0.2.43"
-langchain-ollama = "^0.1.3"
-qianfan = "^0.4.12.1"
-dashscope = "^1.20.14"
-ollama = "^0.4.4"
+httpx = "^0.28.1"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.6.9"
@@ -106,6 +98,7 @@ mkdocs-jupyter = "^0.25.1"
 mkdocs-exclude-search = "^0.6.6"
 pytest-dotenv = "^0.5.2"
 mkdocs-typer = "^0.0.3"
+qianfan = "^0.4.12.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
@@ -121,6 +114,7 @@ _convert_global_search_nb = 'jupyter nbconvert --output-dir=docsite/posts/query/
 _semversioner_release = "semversioner release"
 _semversioner_changelog = "semversioner changelog > CHANGELOG.md"
 _semversioner_update_toml_version = "update-toml update --path tool.poetry.version --value $(poetry run semversioner current-version)"
+semversioner_add = "semversioner add-change"
 coverage_report = 'coverage report --omit "**/tests/**" --show-missing'
 check_format = 'ruff format . --check'
 fix = "ruff check --fix ."

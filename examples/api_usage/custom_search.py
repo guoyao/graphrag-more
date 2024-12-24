@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import asyncio
+import os
 from collections.abc import AsyncGenerator
 from pathlib import Path
 
@@ -42,51 +43,65 @@ RELATIONSHIP_TABLE = 'create_final_relationships'
 # higher value means we use reports from more fine-grained communities (at the cost of higher computation cost)
 COMMUNITY_LEVEL = 2
 
-api_key = ''
-api_base = ''
+api_type = OpenaiApiType.OpenAI
 
 # 百度千帆
-# llm_model = 'qianfan.ERNIE-Speed-Pro-128K'
-# embedding_model = 'qianfan.tao-8k'
-# llm_temperature = 1e-10  # 百度千帆 temperature 范围：(0, 1.0]
-# json_mode = False
-
-# 阿里通义
-llm_model = 'tongyi.qwen-plus'
-embedding_model = 'tongyi.text-embedding-v2'
-llm_temperature = 0.0
+api_key = os.getenv('QIANFAN_BEARER_TOKEN')
+api_base = 'https://qianfan.baidubce.com/v2'
+llm_model = 'ernie-speed-pro-128k'  # 建议使用上下文窗口不小于32K的模型
+embedding_model = 'tao-8k'
+llm_temperature = 1e-10  # 百度千帆 temperature 范围：(0, 1.0]
 json_mode = False
 
+# 阿里通义
+# api_key = os.getenv('TONGYI_API_KEY') or os.getenv('DASHSCOPE_API_KEY')
+# api_base = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
+# llm_model = 'qwen-plus'  # 建议使用上下文窗口不小于32K的模型
+# embedding_model = 'text-embedding-v2'
+# llm_temperature = 0.0
+# json_mode = False
+
+# 字节豆包
+# api_key = os.getenv('ARK_API_KEY')
+# api_base = 'https://ark.cn-beijing.volces.com/api/v3'
+# llm_model = '豆包模型ID（即推理接入点ID，不是模型名称）'  # 建议使用上下文窗口不小于32K的模型
+# embedding_model = '豆包模型ID（即推理接入点ID，不是模型名称）'
+# llm_temperature = 0.0
+# json_mode = True
+
 # Ollama
-# llm_model = 'ollama.mistral:latest'
+# api_key = ''
+# api_base = 'http://localhost:11434/v1'
+# llm_model = 'ollama.mistral:latest'  # 建议使用上下文窗口不小于32K的模型
 # embedding_model = 'ollama.quentinz/bge-large-zh-v1.5:latest'
 # llm_temperature = 0.0
 # json_mode = True
 
 # Azure OpenAI
-# api_key = os.environ.get('AZURE_OPENAI_API_KEY', '')
-# api_base = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
-# llm_model = 'gpt-4o-mini'
+# api_key = os.getenv('AZURE_OPENAI_API_KEY')
+# api_base = os.getenv('AZURE_OPENAI_ENDPOINT')
+# api_type = OpenaiApiType.AzureOpenAI
+# llm_model = 'gpt-4o-mini'  # 建议使用上下文窗口不小于32K的模型
 # embedding_model = 'text-embedding-3-small'
 # llm_temperature = 0.0
 # json_mode = True
 
 llm = ChatOpenAI(
-    api_key=api_key,  # just for OpenAI and AzureOpenAI
-    api_type=OpenaiApiType.AzureOpenAI,  # OpenaiApiType.OpenAI or OpenaiApiType.AzureOpenAI
-    api_base=api_base,  # just for OpenAI and AzureOpenAI
-    api_version='2024-02-15-preview',  # just for OpenAI and AzureOpenAI
+    api_key=api_key,
+    api_type=api_type,  # OpenaiApiType.OpenAI or OpenaiApiType.AzureOpenAI
+    api_base=api_base,
+    api_version='2024-02-15-preview',  # just for AzureOpenAI
     model=llm_model,
     max_retries=20
 )
 
 text_embedder = OpenAIEmbedding(
-    api_key=api_key,  # just for OpenAI and AzureOpenAI
-    api_type=OpenaiApiType.AzureOpenAI,  # OpenaiApiType.OpenAI or OpenaiApiType.AzureOpenAI
-    api_base=api_base,  # just for OpenAI and AzureOpenAI
-    api_version='2024-02-15-preview',  # just for OpenAI and AzureOpenAI
+    api_key=api_key,
+    api_type=api_type,  # OpenaiApiType.OpenAI or OpenaiApiType.AzureOpenAI
+    api_base=api_base,  # http://localhost:11434/api for Ollama
+    api_version='2024-02-15-preview',  # just for AzureOpenAI
     model=embedding_model,
-    deployment_name=embedding_model,  # just for OpenAI and AzureOpenAI
+    deployment_name=embedding_model,  # just for AzureOpenAI
     max_retries=20
 )
 

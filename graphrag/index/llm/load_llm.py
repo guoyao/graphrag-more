@@ -14,6 +14,7 @@ from fnllm.openai import (
     AzureOpenAIConfig,
     OpenAIConfig,
     PublicOpenAIConfig,
+    create_openai_chat_llm,
     create_openai_client,
 )
 from fnllm.openai.types.chat.parameters import OpenAIChatParameters
@@ -22,7 +23,6 @@ from pydantic import TypeAdapter
 import graphrag.config.defaults as defs
 from graphrag.config.enums import LLMType
 from graphrag.config.models.llm_parameters import LLMParameters
-from graphrag.fnllm.openai.factories.chat import create_openai_chat_llm
 from graphrag.fnllm.openai.factories.embeddings import create_openai_embeddings_llm
 from graphrag.index.llm.manager import ChatLLMSingleton, EmbeddingsLLMSingleton
 
@@ -238,7 +238,7 @@ def _create_openai_config(config: LLMParameters, azure: bool) -> OpenAIConfig:
         )
     return PublicOpenAIConfig(
         api_key=config.api_key,
-        base_url=config.proxy,
+        base_url=config.api_base,
         json_strategy=json_strategy,
         organization=config.organization,
         max_retries=config.max_retries,

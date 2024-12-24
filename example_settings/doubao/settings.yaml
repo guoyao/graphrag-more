@@ -9,9 +9,9 @@ encoding_model: cl100k_base # this needs to be matched to your model!
 llm:
   api_key: ${GRAPHRAG_API_KEY} # set this in the generated .env file
   type: openai_chat # or azure_openai_chat
-  model: qwen-plus # 建议使用上下文窗口不小于32K的模型
-  model_supports_json: false # recommended if this is available for your model, original default is true
-  api_base: https://dashscope.aliyuncs.com/compatible-mode/v1
+  model: ${LLM_MODEL_ID} # 豆包模型ID（即推理接入点ID，不是模型名称），建议使用上下文窗口不小于32K的模型，也可以在生成的 .env 文件中配置
+  model_supports_json: true # recommended if this is available for your model, original default is true
+  api_base: https://ark.cn-beijing.volces.com/api/v3
   # max_tokens: 4000
   # tokens_per_minute: 150_000 # set a leaky bucket throttle
   # requests_per_minute: 10_000 # set a leaky bucket throttle
@@ -35,8 +35,8 @@ embeddings:
   llm:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
-    model: text-embedding-v2
-    api_base: https://dashscope.aliyuncs.com/compatible-mode/v1
+    model: ${EMBEDDING_MODEL_ID} # 豆包模型ID（即推理接入点ID，不是模型名称），也可以在生成的 .env 文件中配置
+    api_base: https://ark.cn-beijing.volces.com/api/v3
     # tokens_per_minute: 150_000 # set a leaky bucket throttle
     # requests_per_minute: 10_000 # set a leaky bucket throttle
     # concurrent_requests: 25 # the number of parallel inflight requests that may be made
