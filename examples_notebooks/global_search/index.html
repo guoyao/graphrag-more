@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -1772,6 +1772,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     processEnvironments: true
                 },
                 displayAlign: 'center',
+                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -2017,22 +2018,22 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">tiktoken</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tiktoken</span>
 
-<span class="kn">from</span> <span class="nn">graphrag.query.indexer_adapters</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.indexer_adapters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">read_indexer_communities</span><span class="p">,</span>
     <span class="n">read_indexer_entities</span><span class="p">,</span>
     <span class="n">read_indexer_reports</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.chat_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.typing</span> <span class="kn">import</span> <span class="n">OpenaiApiType</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.global_search.community_context</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.chat_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenaiApiType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.global_search.community_context</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">GlobalCommunityContext</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.global_search.search</span> <span class="kn">import</span> <span class="n">GlobalSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.global_search.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">GlobalSearch</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
 
@@ -2144,7 +2145,7 @@ Cell <span class="ansi-green-fg">In[3], line 11</span>
 <span class="ansi-green-fg">---&gt; 11</span> token_encoder <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">tiktoken</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">encoding_for_model</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">llm_model</span><span class="ansi-yellow-bg">)</span>
 
 File <span class="ansi-green-fg">~/.cache/pypoetry/virtualenvs/graphrag-more-_hBYYCdb-py3.11/lib/python3.11/site-packages/tiktoken/model.py:105</span>, in <span class="ansi-cyan-fg">encoding_for_model</span><span class="ansi-blue-fg">(model_name)</span>
-<span class="ansi-green-intense-fg ansi-bold">    100</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">encoding_for_model</span>(model_name: <span style="color: rgb(0,135,0)">str</span>) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> Encoding:
+<span class="ansi-green-intense-fg ansi-bold">    100</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">encoding_for_model</span>(model_name: <span style="color: rgb(0,135,0)">str</span>) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> Encoding:
 <span class="ansi-green-intense-fg ansi-bold">    101</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">"""Returns the encoding used by a model.</span>
 <span class="ansi-green-intense-fg ansi-bold">    102</span> 
 <span class="ansi-green-intense-fg ansi-bold">    103</span> <span style="color: rgb(175,0,0)">    Raises a KeyError if the model name is not recognised.</span>
@@ -2157,7 +2158,7 @@ File <span class="ansi-green-fg">~/.cache/pypoetry/virtualenvs/graphrag-more-_hB
 <span class="ansi-green-fg">---&gt; 92</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">KeyError</span>(
 <span class="ansi-green-intense-fg ansi-bold">     93</span>         <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">Could not automatically map </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>model_name<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> to a tokeniser. </span><span style="color: rgb(175,0,0)">"</span>
 <span class="ansi-green-intense-fg ansi-bold">     94</span>         <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">Please use `tiktoken.get_encoding` to explicitly get the tokeniser you expect.</span><span style="color: rgb(175,0,0)">"</span>
-<span class="ansi-green-intense-fg ansi-bold">     95</span>     ) <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-intense-fg ansi-bold">     95</span>     ) <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
 <span class="ansi-green-intense-fg ansi-bold">     97</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> encoding_name
 
 <span class="ansi-red-fg">KeyError</span>: 'Could not automatically map  to a tokeniser. Please use `tiktoken.get_encoding` to explicitly get the tokeniser you expect.'</pre>
@@ -2290,7 +2291,7 @@ report_df.head()</div>
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">/tmp/ipykernel_1912/1512985616.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">/tmp/ipykernel_2028/1512985616.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-fg">()</span>
 <span class="ansi-green-intense-fg ansi-bold">      2</span> entity_df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>read_parquet<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f"{INPUT_DIR}/{ENTITY_TABLE}.parquet"</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      3</span> report_df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>read_parquet<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f"{INPUT_DIR}/{COMMUNITY_REPORT_TABLE}.parquet"</span><span class="ansi-blue-fg">)</span>
 <span class="ansi-green-intense-fg ansi-bold">      4</span> entity_embedding_df <span class="ansi-blue-fg">=</span> pd<span class="ansi-blue-fg">.</span>read_parquet<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f"{INPUT_DIR}/{ENTITY_EMBEDDING_TABLE}.parquet"</span><span class="ansi-blue-fg">)</span>
@@ -2817,7 +2818,7 @@ Cell <span class="ansi-green-fg">In[11], line 3</span>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.select", "navigation.footer", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
         <script src="../../scripts/create_cookie_banner.js"></script>
       

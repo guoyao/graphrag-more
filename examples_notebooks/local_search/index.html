@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -1910,6 +1910,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     processEnvironments: true
                 },
                 displayAlign: 'center',
+                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -2155,28 +2156,28 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">tiktoken</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tiktoken</span>
 
-<span class="kn">from</span> <span class="nn">graphrag.query.context_builder.entity_extraction</span> <span class="kn">import</span> <span class="n">EntityVectorStoreKey</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.indexer_adapters</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.context_builder.entity_extraction</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityVectorStoreKey</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.indexer_adapters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">read_indexer_covariates</span><span class="p">,</span>
     <span class="n">read_indexer_entities</span><span class="p">,</span>
     <span class="n">read_indexer_relationships</span><span class="p">,</span>
     <span class="n">read_indexer_reports</span><span class="p">,</span>
     <span class="n">read_indexer_text_units</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.chat_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.embedding</span> <span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.typing</span> <span class="kn">import</span> <span class="n">OpenaiApiType</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.question_gen.local_gen</span> <span class="kn">import</span> <span class="n">LocalQuestionGen</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.local_search.mixed_context</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.chat_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.embedding</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenaiApiType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.question_gen.local_gen</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalQuestionGen</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.local_search.mixed_context</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">LocalSearchMixedContext</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.local_search.search</span> <span class="kn">import</span> <span class="n">LocalSearch</span>
-<span class="kn">from</span> <span class="nn">graphrag.vector_stores.lancedb</span> <span class="kn">import</span> <span class="n">LanceDBVectorStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.local_search.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.vector_stores.lancedb</span><span class="w"> </span><span class="kn">import</span> <span class="n">LanceDBVectorStore</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import os
 
@@ -2487,7 +2488,7 @@ Cell <span class="ansi-green-fg">In[5], line 2</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> relationship_df<span style="color: rgb(98,98,98)">.</span>head()
 
 File <span class="ansi-green-fg">~/work/graphrag-more/graphrag-more/graphrag/query/indexer_adapters.py:66</span>, in <span class="ansi-cyan-fg">read_indexer_relationships</span><span class="ansi-blue-fg">(final_relationships)</span>
-<span class="ansi-green-intense-fg ansi-bold">     64</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">read_indexer_relationships</span>(final_relationships: pd<span style="color: rgb(98,98,98)">.</span>DataFrame) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> <span style="color: rgb(0,135,0)">list</span>[Relationship]:
+<span class="ansi-green-intense-fg ansi-bold">     64</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">read_indexer_relationships</span>(final_relationships: pd<span style="color: rgb(98,98,98)">.</span>DataFrame) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> <span style="color: rgb(0,135,0)">list</span>[Relationship]:
 <span class="ansi-green-intense-fg ansi-bold">     65</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">"""Read in the Relationships from the raw indexing outputs."""</span>
 <span class="ansi-green-fg">---&gt; 66</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">read_relationships</span><span class="ansi-yellow-bg">(</span>
 <span class="ansi-green-intense-fg ansi-bold">     67</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">df</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">final_relationships</span><span class="ansi-yellow-bg">,</span>
@@ -3828,7 +3829,7 @@ Cell <span class="ansi-green-fg">In[21], line 5</span>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.select", "navigation.footer", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
         <script src="../../scripts/create_cookie_banner.js"></script>
       

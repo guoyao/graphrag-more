@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.48">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -1617,6 +1617,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     processEnvironments: true
                 },
                 displayAlign: 'center',
+                messageStyle: 'none',
                 CommonHTML: {
                     linebreaks: {
                     automatic: true
@@ -1862,26 +1863,26 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">tiktoken</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tiktoken</span>
 
-<span class="kn">from</span> <span class="nn">graphrag.query.indexer_adapters</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.indexer_adapters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">read_indexer_entities</span><span class="p">,</span>
     <span class="n">read_indexer_relationships</span><span class="p">,</span>
     <span class="n">read_indexer_reports</span><span class="p">,</span>
     <span class="n">read_indexer_text_units</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.chat_openai</span> <span class="kn">import</span> <span class="n">ChatOpenAI</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.embedding</span> <span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.llm.oai.typing</span> <span class="kn">import</span> <span class="n">OpenaiApiType</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.drift_search.drift_context</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.chat_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.embedding</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEmbedding</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.llm.oai.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenaiApiType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.drift_search.drift_context</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DRIFTSearchContextBuilder</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">graphrag.query.structured_search.drift_search.search</span> <span class="kn">import</span> <span class="n">DRIFTSearch</span>
-<span class="kn">from</span> <span class="nn">graphrag.vector_stores.lancedb</span> <span class="kn">import</span> <span class="n">LanceDBVectorStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.query.structured_search.drift_search.search</span><span class="w"> </span><span class="kn">import</span> <span class="n">DRIFTSearch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">graphrag.vector_stores.lancedb</span><span class="w"> </span><span class="kn">import</span> <span class="n">LanceDBVectorStore</span>
 
 <span class="n">INPUT_DIR</span> <span class="o">=</span> <span class="s2">"./inputs/operation dulce"</span>
 <span class="n">LANCEDB_URI</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">INPUT_DIR</span><span class="si">}</span><span class="s2">/lancedb"</span>
@@ -2148,7 +2149,7 @@ text_embedder = OpenAIEmbedding(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">def</span> <span class="nf">read_community_reports</span><span class="p">(</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_community_reports</span><span class="p">(</span>
     <span class="n">input_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">community_report_table</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">COMMUNITY_REPORT_TABLE</span><span class="p">,</span>
 <span class="p">):</span>
@@ -2503,7 +2504,7 @@ Cell <span class="ansi-green-fg">In[8], line 1</span>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.select", "navigation.footer", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
         <script src="../../scripts/create_cookie_banner.js"></script>
       
