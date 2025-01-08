@@ -25,18 +25,18 @@ RELATIONSHIP_TABLE = 'create_final_relationships'
 COVARIATE_TABLE = 'create_final_covariates'
 
 local_search_parquet_list = [
-    f'{ENTITY_NODES_TABLE}.parquet',
-    f'{ENTITY_EMBEDDING_TABLE}.parquet',
-    f'{COMMUNITY_REPORT_TABLE}.parquet',
-    f'{TEXT_UNIT_TABLE}.parquet',
-    f'{RELATIONSHIP_TABLE}.parquet'
+    ENTITY_NODES_TABLE,
+    ENTITY_EMBEDDING_TABLE,
+    COMMUNITY_REPORT_TABLE,
+    TEXT_UNIT_TABLE,
+    RELATIONSHIP_TABLE
 ]
 
 global_search_parquet_list = [
-    f'{ENTITY_NODES_TABLE}.parquet',
-    f'{ENTITY_EMBEDDING_TABLE}.parquet',
-    f'{COMMUNITIES_TABLE}.parquet',
-    f'{COMMUNITY_REPORT_TABLE}.parquet'
+    ENTITY_NODES_TABLE,
+    ENTITY_EMBEDDING_TABLE,
+    COMMUNITIES_TABLE,
+    COMMUNITY_REPORT_TABLE
 ]
 
 optional_parquet_list = [f'{COVARIATE_TABLE}.parquet']

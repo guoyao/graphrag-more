@@ -60,7 +60,7 @@ chunks:
 ## connection_string and container_name must be provided
 
 cache:
-  type: file # or blob
+  type: file # one of [blob, cosmosdb, file]
   base_dir: "cache"
 
 reporting:
@@ -68,7 +68,7 @@ reporting:
   base_dir: "logs"
 
 storage:
-  type: file # or blob
+  type: file # one of [blob, cosmosdb, file]
   base_dir: "output" # output/${timestamp}/artifacts
 
 ## only turn this on if running `graphrag index` with custom settings
@@ -135,3 +135,6 @@ global_search:
 
 drift_search:
   prompt: "prompts/drift_search_system_prompt.txt"
+
+basic_search:
+  prompt: "prompts/basic_search_system_prompt.txt"

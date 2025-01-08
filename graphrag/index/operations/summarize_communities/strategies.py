@@ -6,22 +6,20 @@
 import logging
 import traceback
 
-from datashaper import VerbCallbacks
 from fnllm import ChatLLM
 
 from graphrag.cache.pipeline_cache import PipelineCache
-from graphrag.index.graph.extractors.community_reports import (
+from graphrag.callbacks.workflow_callbacks import WorkflowCallbacks
+from graphrag.index.llm.load_llm import load_llm, read_llm_params
+from graphrag.index.operations.summarize_communities.community_reports_extractor.community_reports_extractor import (
     CommunityReportsExtractor,
 )
-from graphrag.index.llm.load_llm import load_llm, read_llm_params
 from graphrag.index.operations.summarize_communities.typing import (
     CommunityReport,
     Finding,
     StrategyConfig,
 )
 from graphrag.index.utils.rate_limiter import RateLimiter
-
-DEFAULT_CHUNK_SIZE = 3000
 
 log = logging.getLogger(__name__)
 
@@ -30,7 +28,7 @@ async def run_graph_intelligence(
     community: str | int,
     input: str,
     level: int,
-    callbacks: VerbCallbacks,
+    callbacks: WorkflowCallbacks,
     cache: PipelineCache,
     args: StrategyConfig,
 ) -> CommunityReport | None:
@@ -46,7 +44,7 @@ async def _run_extractor(
     input: str,
     level: int,
     args: StrategyConfig,
-    callbacks: VerbCallbacks,
+    callbacks: WorkflowCallbacks,
 ) -> CommunityReport | None:
     # RateLimiter
     rate_limiter = RateLimiter(rate=1, per=60)

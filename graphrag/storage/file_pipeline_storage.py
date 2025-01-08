@@ -14,9 +14,9 @@ from typing import Any, cast
 import aiofiles
 from aiofiles.os import remove
 from aiofiles.ospath import exists
-from datashaper import Progress
 
 from graphrag.logger.base import ProgressLogger
+from graphrag.logger.progress import Progress
 from graphrag.storage.pipeline_storage import PipelineStorage
 
 log = logging.getLogger(__name__)
@@ -47,7 +47,6 @@ class FilePipelineStorage(PipelineStorage):
         def item_filter(item: dict[str, Any]) -> bool:
             if file_filter is None:
                 return True
-
             return all(re.match(value, item[key]) for key, value in file_filter.items())
 
         search_path = Path(self._root_dir) / (base_dir or "")

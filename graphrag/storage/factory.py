@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from graphrag.config.enums import StorageType
 from graphrag.storage.blob_pipeline_storage import create_blob_storage
+from graphrag.storage.cosmosdb_pipeline_storage import create_cosmosdb_storage
 from graphrag.storage.file_pipeline_storage import create_file_storage
 from graphrag.storage.memory_pipeline_storage import MemoryPipelineStorage
 
@@ -20,6 +21,9 @@ class StorageFactory:
     """A factory class for storage implementations.
 
     Includes a method for users to register a custom storage implementation.
+
+    Configuration arguments are passed to each storage implementation as kwargs
+    for individual enforcement of required/optional arguments.
     """
 
     storage_types: ClassVar[dict[str, type]] = {}
@@ -37,6 +41,8 @@ class StorageFactory:
         match storage_type:
             case StorageType.blob:
                 return create_blob_storage(**kwargs)
+            case StorageType.cosmosdb:
+                return create_cosmosdb_storage(**kwargs)
             case StorageType.file:
                 return create_file_storage(**kwargs)
             case StorageType.memory:

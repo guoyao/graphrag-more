@@ -5,12 +5,10 @@
 
 from collections.abc import Awaitable, Callable, Iterable
 from dataclasses import dataclass
-from enum import Enum
 from typing import Any
 
-from datashaper import VerbCallbacks
-
 from graphrag.cache.pipeline_cache import PipelineCache
+from graphrag.callbacks.workflow_callbacks import WorkflowCallbacks
 
 
 @dataclass
@@ -43,19 +41,9 @@ CovariateExtractStrategy = Callable[
         Iterable[str],
         list[str],
         dict[str, str],
-        VerbCallbacks,
+        WorkflowCallbacks,
         PipelineCache,
         dict[str, Any],
     ],
     Awaitable[CovariateExtractionResult],
 ]
-
-
-class ExtractClaimsStrategyType(str, Enum):
-    """ExtractClaimsStrategyType class definition."""
-
-    graph_intelligence = "graph_intelligence"
-
-    def __repr__(self):
-        """Get a string representation."""
-        return f'"{self.value}"'

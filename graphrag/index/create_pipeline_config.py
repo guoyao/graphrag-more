@@ -12,22 +12,18 @@ from graphrag.config.enums import (
     InputFileType,
     ReportingType,
     StorageType,
-    TextEmbeddingTarget,
 )
 from graphrag.config.models.graph_rag_config import GraphRagConfig
 from graphrag.config.models.storage_config import StorageConfig
-from graphrag.config.models.text_embedding_config import TextEmbeddingConfig
 from graphrag.index.config.cache import (
     PipelineBlobCacheConfig,
     PipelineCacheConfigTypes,
+    PipelineCosmosDBCacheConfig,
     PipelineFileCacheConfig,
     PipelineMemoryCacheConfig,
     PipelineNoneCacheConfig,
 )
-from graphrag.index.config.embeddings import (
-    all_embeddings,
-    required_embeddings,
-)
+from graphrag.index.config.embeddings import get_embedded_fields, get_embedding_settings
 from graphrag.index.config.input import (
     PipelineCSVInputConfig,
     PipelineInputConfigTypes,
@@ -44,6 +40,7 @@ from graphrag.index.config.reporting import (
 )
 from graphrag.index.config.storage import (
     PipelineBlobStorageConfig,
+    PipelineCosmosDBStorageConfig,
     PipelineFileStorageConfig,
     PipelineMemoryStorageConfig,
     PipelineStorageConfigTypes,
@@ -51,7 +48,7 @@ from graphrag.index.config.storage import (
 from graphrag.index.config.workflow import (
     PipelineWorkflowReference,
 )
-from graphrag.index.workflows.default_workflows import (
+from graphrag.index.workflows import (
     compute_communities,
     create_base_text_units,
     create_final_communities,
@@ -90,7 +87,7 @@ def create_pipeline_config(settings: GraphRagConfig, verbose=False) -> PipelineC
         _log_llm_settings(settings)
 
     skip_workflows = settings.skip_workflows
-    embedded_fields = _get_embedded_fields(settings)
+    embedded_fields = get_embedded_fields(settings)
     covariates_enabled = (
         settings.claim_extraction.enabled
         and create_final_covariates not in skip_workflows
@@ -119,19 +116,6 @@ def create_pipeline_config(settings: GraphRagConfig, verbose=False) -> PipelineC
     log.info("skipping workflows %s", ",".join(skip_workflows))
     result.workflows = [w for w in result.workflows if w.name not in skip_workflows]
     return result
-
-
-def _get_embedded_fields(settings: GraphRagConfig) -> set[str]:
-    match settings.embeddings.target:
-        case TextEmbeddingTarget.all:
-            return all_embeddings.difference(settings.embeddings.skip)
-        case TextEmbeddingTarget.required:
-            return required_embeddings
-        case TextEmbeddingTarget.none:
-            return set()
-        case _:
-            msg = f"Unknown embeddings target: {settings.embeddings.target}"
-            raise ValueError(msg)
 
 
 def _log_llm_settings(settings: GraphRagConfig) -> None:
@@ -174,13 +158,8 @@ def _text_unit_workflows(
         PipelineWorkflowReference(
             name=create_base_text_units,
             config={
+                "chunks": settings.chunks,
                 "snapshot_transient": settings.snapshots.transient,
-                "chunk_by": settings.chunks.group_by_columns,
-                "text_chunk": {
-                    "strategy": settings.chunks.resolved_strategy(
-                        settings.encoding_model
-                    )
-                },
             },
         ),
         PipelineWorkflowReference(
@@ -190,28 +169,6 @@ def _text_unit_workflows(
             },
         ),
     ]
-
-
-def _get_embedding_settings(
-    settings: TextEmbeddingConfig,
-    vector_store_params: dict | None = None,
-) -> dict:
-    vector_store_settings = settings.vector_store
-    if vector_store_settings is None:
-        return {"strategy": settings.resolved_strategy()}
-    #
-    # If we get to this point, settings.vector_store is defined, and there's a specific setting for this embedding.
-    # settings.vector_store.base contains connection information, or may be undefined
-    # settings.vector_store.<vector_name> contains the specific settings for this embedding
-    #
-    strategy = settings.resolved_strategy()  # get the default strategy
-    strategy.update({
-        "vector_store": {**(vector_store_params or {}), **vector_store_settings}
-    })  # update the default strategy with the vector store settings
-    # This ensures the vector store config is part of the strategy and not the global config
-    return {
-        "strategy": strategy,
-    }
 
 
 def _graph_workflows(settings: GraphRagConfig) -> list[PipelineWorkflowReference]:
@@ -241,9 +198,7 @@ def _graph_workflows(settings: GraphRagConfig) -> list[PipelineWorkflowReference
         PipelineWorkflowReference(
             name=compute_communities,
             config={
-                "cluster_graph": {
-                    "strategy": settings.cluster_graph.resolved_strategy()
-                },
+                "cluster_graph": settings.cluster_graph,
                 "snapshot_transient": settings.snapshots.transient,
             },
         ),
@@ -258,9 +213,8 @@ def _graph_workflows(settings: GraphRagConfig) -> list[PipelineWorkflowReference
         PipelineWorkflowReference(
             name=create_final_nodes,
             config={
-                "layout_graph_enabled": settings.umap.enabled,
-                "embed_graph_enabled": settings.embed_graph.enabled,
-                "embed_graph": {"strategy": settings.embed_graph.resolved_strategy()},
+                "layout_enabled": settings.umap.enabled,
+                "embed_graph": settings.embed_graph,
             },
         ),
     ]
@@ -313,7 +267,7 @@ def _embeddings_workflows(
             name=generate_text_embeddings,
             config={
                 "snapshot_embeddings": settings.snapshots.embeddings,
-                "text_embed": _get_embedding_settings(settings.embeddings),
+                "text_embed": get_embedding_settings(settings.embeddings),
                 "embedded_fields": embedded_fields,
             },
         ),
@@ -420,6 +374,26 @@ def _get_storage_config(
                 base_dir=storage_settings.base_dir,
                 storage_account_blob_url=storage_account_blob_url,
             )
+        case StorageType.cosmosdb:
+            cosmosdb_account_url = storage_settings.cosmosdb_account_url
+            connection_string = storage_settings.connection_string
+            base_dir = storage_settings.base_dir
+            container_name = storage_settings.container_name
+            if cosmosdb_account_url is None:
+                msg = "CosmosDB account url must be provided for cosmosdb storage."
+                raise ValueError(msg)
+            if base_dir is None:
+                msg = "Base directory must be provided for cosmosdb storage."
+                raise ValueError(msg)
+            if container_name is None:
+                msg = "Container name must be provided for cosmosdb storage."
+                raise ValueError(msg)
+            return PipelineCosmosDBStorageConfig(
+                cosmosdb_account_url=cosmosdb_account_url,
+                connection_string=connection_string,
+                base_dir=storage_settings.base_dir,
+                container_name=container_name,
+            )
         case _:
             # relative to the root_dir
             base_dir = storage_settings.base_dir
@@ -456,6 +430,26 @@ def _get_cache_config(
                 container_name=container_name,
                 base_dir=settings.cache.base_dir,
                 storage_account_blob_url=storage_account_blob_url,
+            )
+        case CacheType.cosmosdb:
+            cosmosdb_account_url = settings.cache.cosmosdb_account_url
+            connection_string = settings.cache.connection_string
+            base_dir = settings.cache.base_dir
+            container_name = settings.cache.container_name
+            if base_dir is None:
+                msg = "Base directory must be provided for cosmosdb cache."
+                raise ValueError(msg)
+            if container_name is None:
+                msg = "Container name must be provided for cosmosdb cache."
+                raise ValueError(msg)
+            if connection_string is None and cosmosdb_account_url is None:
+                msg = "Connection string or cosmosDB account url must be provided for cosmosdb cache."
+                raise ValueError(msg)
+            return PipelineCosmosDBCacheConfig(
+                cosmosdb_account_url=cosmosdb_account_url,
+                connection_string=connection_string,
+                base_dir=base_dir,
+                container_name=container_name,
             )
         case _:
             # relative to root dir

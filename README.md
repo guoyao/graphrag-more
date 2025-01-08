@@ -1,14 +1,14 @@
 # GraphRAG More
 
-GraphRAG More 基于 [微软GraphRAG](https://github.com/microsoft/graphrag) ，支持使用各种大模型：
-1. OpenAI接口兼容的模型（*微软GraphRAG本就支持，如果使用的模型接口兼容OpenAI，建议直接使用 [微软GraphRAG](https://github.com/microsoft/graphrag)* ）
+GraphRAG More 基于微软 [GraphRAG](https://github.com/microsoft/graphrag) ，支持使用各种大模型：
+1. OpenAI接口兼容的模型服务（*微软GraphRAG本就支持，可直接使用微软 [GraphRAG](https://github.com/microsoft/graphrag)* ）
    * OpenAI
    * Azure OpenAI
    * 阿里通义
    * 字节豆包
-   * Ollama本地模型
-   * 其他OpenAI接口兼容的模型
-2. 非OpenAI接口兼容的模型（*微软GraphRAG不支持*）
+   * Ollama
+   * 其他OpenAI接口兼容的模型服务
+2. 非OpenAI接口兼容的模型服务（*微软GraphRAG不支持*）
    * 百度千帆（*推理服务V2版本接口兼容OpenAI，但目前V2版本接口不支持Embedding*）
 
 <div align="left">
@@ -21,7 +21,6 @@ GraphRAG More 基于 [微软GraphRAG](https://github.com/microsoft/graphrag) ，
 </div>
 
 > 可以先熟悉一下微软官方的demo教程：👉 [微软官方文档](https://microsoft.github.io/graphrag/get_started/)
-
 
 ## 使用步骤如下：
 
@@ -73,6 +72,9 @@ graphrag init --root ./ragtest
 这将在./ragtest目录中创建两个文件：`.env`和`settings.yaml`，`.env`包含运行GraphRAG所需的环境变量，`settings.yaml`包含GraphRAG全部设置。
 
 ### 4. 配置
+
+**GraphRAG More 1.1.0 版本开始的配置文件与 1.1.0 之前版本的变动较大，升级请注意！！！**
+
 1. `.env`<br/>
 在`.env`文件中配置`GRAPHRAG_API_KEY`，这是您所使用的大模型服务的API密钥，将其替换为您自己的API密钥。
    * [阿里通义获取API Key官方文档](https://help.aliyun.com/zh/model-studio/developer-reference/get-api-key)
@@ -86,7 +88,7 @@ graphrag init --root ./ragtest
 在`settings.yaml`文件中，根据您所使用的大模型配置`model`和`api_base`，`GraphRAG More`的`example_settings` 文件夹提供了
 百度千帆、阿里通义、字节豆包、Ollama 的`settings.yaml`文件供参考（详细的配置参考微软官方文档：https://microsoft.github.io/graphrag/config/yaml/ ），
 根据选用的模型和使用的`GraphRAG More`版本（不同版本`settings.yaml`可能不一样），您可以直接将将`example_settings`
-文件夹（比如：`GraphRAG More` 1.0.2 版本的 [example_settings](https://github.com/guoyao/graphrag-more/tree/v1.0.2/example_settings) ）对应模型的`settings.yaml`
+文件夹（比如：`GraphRAG More` 1.1.0 版本的 [example_settings](https://github.com/guoyao/graphrag-more/tree/v1.1.0/example_settings) ）对应模型的`settings.yaml`
 文件复制到 ragtest 目录，覆盖初始化过程生成的`settings.yaml`文件。
     ```shell
     # 百度千帆

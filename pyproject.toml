@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "graphrag-more"
 # Maintainers: do not change the version here manually, use ./scripts/release.sh
-version = "1.0.2"
+version = "1.1.0"
 description = "基于微软GraphRAG，支持使用百度千帆、阿里通义、Ollama等模型"
 authors = [
     "Guoyao Wu <guoyao.me@gmail.com>",
@@ -33,7 +33,6 @@ format-jinja = """
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
 environs = "^11.0.0"
-datashaper = "^0.0.49"
 
 # Vector Stores
 azure-search-documents = "^11.5.2"
@@ -67,8 +66,9 @@ devtools = "^0.12.2"
 typing-extensions = "^4.12.2"
 
 #Azure
-azure-storage-blob = "^12.24.0"
+azure-cosmos = "^4.9.0"
 azure-identity = "^1.19.0"
+azure-storage-blob = "^12.24.0"
 
 future = "^1.0.0" # Needed until graspologic fixes their dependency
 typer = "^0.15.1"
@@ -238,7 +238,6 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S", "D", "ANN", "T201", "ASYNC", "ARG", "PTH", "TRY"]
-"examples/*" = ["S", "D", "ANN", "T201", "PTH", "TRY", "PERF"]
 "graphrag/index/config/*" = ["TCH"]
 "*.ipynb" = ["T201"]
 
@@ -250,10 +249,11 @@ convention = "numpy"
 
 # https://github.com/microsoft/pyright/blob/9f81564a4685ff5c55edd3959f9b39030f590b2f/docs/configuration.md#sample-pyprojecttoml-file
 [tool.pyright]
-include = ["graphrag", "tests", "examples", "examples_notebooks"]
+include = ["graphrag", "tests", "examples_notebooks"]
 exclude = ["**/node_modules", "**/__pycache__"]
 
 [tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
 asyncio_mode = "auto"
 timeout = 1000
 env_files = [".env"]
