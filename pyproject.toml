@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "graphrag-more"
 # Maintainers: do not change the version here manually, use ./scripts/release.sh
-version = "1.1.1"
+version = "1.1.2"
 description = "基于微软GraphRAG，支持使用百度千帆、阿里通义、Ollama、字节豆包等大模型服务"
 authors = [
     "Guoyao Wu <guoyao.me@gmail.com>",
