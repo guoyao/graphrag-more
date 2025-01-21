@@ -260,7 +260,8 @@ async def drift_search(
         query: str,
         root_dir: str,
         config_filepath: Optional[str] = None,
-        community_level: Optional[int] = 2
+        community_level: Optional[int] = 2,
+        response_type: Optional[str] = 'Multiple Paragraphs'
 ) -> tuple[
     str | dict[str, Any] | list[dict[str, Any]],
     str | list[pd.DataFrame] | dict[str, pd.DataFrame]
@@ -303,6 +304,7 @@ async def drift_search(
         text_units=final_text_units,
         relationships=final_relationships,
         community_level=community_level,
+        response_type=response_type,
         query=query
     )
 

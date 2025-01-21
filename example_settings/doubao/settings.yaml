@@ -28,9 +28,9 @@ embeddings:
   # batch_size: 16 # the number of documents to send in a single request
   # batch_max_tokens: 8191 # the maximum number of tokens to send in a single request
   vector_store:
-    type: lancedb
+    type: lancedb # one of [lancedb, azure_ai_search, cosmosdb]
     db_uri: 'output/lancedb'
-    container_name: default # A prefix for the vector store to create embedding containers. Default: 'default'.
+    collection_name: default
     overwrite: true
   llm:
     api_key: ${GRAPHRAG_API_KEY}
@@ -135,6 +135,7 @@ global_search:
 
 drift_search:
   prompt: "prompts/drift_search_system_prompt.txt"
+  reduce_prompt: "prompts/drift_search_reduce_prompt.txt"
 
 basic_search:
   prompt: "prompts/basic_search_system_prompt.txt"
